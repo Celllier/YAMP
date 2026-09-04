@@ -9,7 +9,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   MyAppBar({
     super.key, 
-    this.title = 'Music Player',
+    this.title = 'YetAnotherMusicPlayer',
     this.automaticallyImplyLeading = false
   });
 

@@ -1,5 +1,5 @@
-name: favorites
-description: "A new Flutter project."
+name: yamp
+description: "Yet Another Music Player. Made to learn the Flutter Framework"
 publish_to: 'none'
 version: 0.1.0+1
 

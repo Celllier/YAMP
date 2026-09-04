@@ -1,4 +1,4 @@
-import 'package:favorites/data/song.dart';
+import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
