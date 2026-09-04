@@ -5,11 +5,12 @@ import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 
 class SongReader {
 
-  // need to make this less hardcoded
-  static String pathToSongs = '/home/micael/Music';
+  static String? get userHome =>
+    Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
 
   static Future<List<Song>> fetchAvailableSongs() async {
-    final songDirectory = Directory(SongReader.pathToSongs);
+    String pathToMusicDir = "$userHome/Music";
+    final songDirectory = Directory(pathToMusicDir);
 
     List<Song> availableSongs = [];
 
@@ -22,7 +23,7 @@ class SongReader {
     return availableSongs;
   }
 
-//'assets/songs/EasyEasy.mp3'
+
   static Song getSong(String path) {
     final file = File(path);
     final metadata = readMetadata(file, getImage: true);
@@ -30,9 +31,6 @@ class SongReader {
     SongImage songImage = metadata.pictures.isNotEmpty 
       ? SongByteImage(bytes:metadata.pictures[0].bytes) 
       : Song.defaultAlbumArt;
-
-    print(metadata);
-
 
     Song song = Song(
       artist: metadata.artist ?? Song.unknown,
