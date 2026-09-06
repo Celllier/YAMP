@@ -1,6 +1,7 @@
-
+import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:yamp/data/songRepository.dart';
 
 import 'songReader.dart';
 
@@ -18,6 +19,24 @@ class Song {
     this._sourcePath = Song.deafultSourcePath,
   });
 
+  Song.fromEntry(Map<String, Object?> dbEntry) : this 
+    (
+      artist: dbEntry['artist'] as String, 
+      title: dbEntry['title'] as String, 
+      durationSeconds: dbEntry['durationSeconds'] as int,
+      sourcePath: dbEntry['path'] as String,
+    );
+
+  Map<String, Object?> toMap() {
+    return {
+      'artist': _artist,
+      'title': _title, 
+      'durationSeconds': _durationSeconds,
+      'path': _sourcePath,
+    };
+  }
+
+  int? id;
   final String _artist;
   final String _title;
   final int _durationSeconds;
@@ -27,7 +46,6 @@ class Song {
   String get artist => _artist;
   String get title => _title;
   int get durationSeconds => _durationSeconds;
-  //String get albumArtPath => _albumArtPath;
   String get sourcePath => _sourcePath;
 
   Widget get imageWidget => _albumArt.displayImage();
@@ -35,34 +53,56 @@ class Song {
 }
 
 
-//  Song(artist: 'Dean Blunt', title: 'Babyfather Freestyle', durationSeconds: 128, albumArtPath: "assets/albums/olho.jpg", sourcePath: "songs/snakeman_freestyle.mp3"),
-//  Song(artist: 'King Krule', title: 'Easy Easy', durationSeconds: 196, albumArtPath: "assets/albums/6ft.jpeg", sourcePath: 'songs/EasyEasy.mp3'),
-//  Song(artist: 'Alex G', title: 'Written in Blood', durationSeconds: 250, albumArtPath: "assets/albums/writtenInBlood.jpeg"),
-//  Song(artist: 'Duster', title: 'Stratosphere', durationSeconds: 100),
-//  Song(artist: 'Sweet Trip', title: 'Chocolate', durationSeconds: 265, albumArtPath: "assets/albums/silent.jpg"),
-//];
+class Playlist extends ChangeNotifier {
+
+  final Queue<Song> _queue = Queue();
+
+  final String _name = "Default playlist";
+
+  void add(Song song) {
+    _queue.add(song);
+    notifyListeners();
+  } 
+
+  void remove(Song song) {
+    _queue.remove(song);
+    notifyListeners();
+  }
+
+  String get name => _name;
+}
 
 
-
-final List<Song> _favorites = []; 
 
 
 class SongModel extends ChangeNotifier {
 
-  SongModel() {
+  SongModel({required this.songRepository}) {
     _loadSongs();
   }
 
-  List<Song> _availableSongs = [];
+  final SongRepository songRepository;
+
+  List<Song> _loadedSongs = [];
+  final List<Song> _favorites = []; 
+
+  // need playlist loader
+  final List<Playlist> _loadedPlaylists = [
+    Playlist(),
+    Playlist(),
+  ];
+
+  List<Playlist> get playlists => _loadedPlaylists;
 
 
-
+    //_loadedSongs = await SongReader.fetchAvailableSongs();
   Future<void> _loadSongs() async {
-    _availableSongs = await SongReader.fetchAvailableSongs();
+    _loadedSongs = await  songRepository.loadSongs();
+    print(_loadedSongs);
     notifyListeners();
   }
 
-  List<Song> get availableSongs => _availableSongs;
+  List<Song> get availableSongs => _loadedSongs;
   List<Song> get favorites => _favorites;
 
   bool isInFavorites(Song song) {
@@ -85,8 +125,6 @@ class SongModel extends ChangeNotifier {
     _favorites.clear();
     notifyListeners();
   }
-
-
 }
 
 

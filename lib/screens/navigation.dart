@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'common.dart';
 import 'songList.dart';
+import 'playlist.dart';
 
 
 class MyNavigationBar extends StatefulWidget {
@@ -52,26 +53,26 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
         onDestinationSelected: _onDestinationSelected,
         destinations: [
           NavigationDestination(icon: Icon(Icons.music_note), label: 'Songs'),
+          NavigationDestination(icon: Icon(Icons.playlist_play), label: 'Playlists'),
           NavigationDestination(icon: Icon(Icons.queue_music), label: "Queue"),
           NavigationDestination(icon: Icon(Icons.favorite), label: 'Favorites'),
         ],
       ),
 
-      body: ChangeNotifierProvider(
-        create: (context) => SongModel(),
-        builder: (context, child) => Consumer2<SongModel, SongPlayer>(
-          builder: (context, songModel, songPlayer, child) => PageView(
+      body: Consumer2<SongModel, SongPlayer>(
+        builder: (context, songModel, songPlayer, child) =>PageView(
             controller: _pageController,
             onPageChanged: _onPageChanged,
             children: [
               SongListView(list: songModel.availableSongs, songModel: songModel),
+              PlaylistListingPage(songModel: songModel),
               SongListView(list: songPlayer.songQueueList, songModel: songModel),
               SongListView(list: songModel.favorites, songModel: songModel),
             ],
           ),
-        ),
       )
     );
+
   }
 }
 
