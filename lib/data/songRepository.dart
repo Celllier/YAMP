@@ -2,7 +2,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'song.dart';
-import 'songReader.dart';
+import 'songFileReader.dart';
 
 class SongRepository {
 
@@ -70,7 +70,7 @@ class SongRepository {
   } 
 
   Future<void> populateWithUserSongs() async {
-    List<Song> userSongs = await SongReader.fetchUserLibrarySongs();
+    List<Song> userSongs = await SongFileReader.fetchUserLibrarySongs();
 
     for (final song in userSongs) {
       await insertIfNotPresent(song);
@@ -78,7 +78,6 @@ class SongRepository {
   }
 
   Future<List<Song>> loadSongs({int limit = 10}) async {
-
     final List<Map<String, Object?>> songMaps = await database.query(
       SongRepository.songsTable,
       limit: limit,
@@ -90,13 +89,6 @@ class SongRepository {
       for (final entry in songMaps) 
         Song.fromEntry(entry)
     ];
-
-    //return [
-    //  for (final {'artist': artist as String, 'title': title as String, 'durationSeconds': durationSeconds as int} in songMaps) 
-    //    Song(artist: artist, title: title, durationSeconds: durationSeconds)
-    //];  
-
-
   }
 
   void loadPlaylists() {

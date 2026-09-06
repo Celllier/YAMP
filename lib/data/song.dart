@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:yamp/data/songRepository.dart';
 
-import 'songReader.dart';
-
 class Song {
 
   static const String unknown = "Unknown";
@@ -95,7 +93,7 @@ class SongModel extends ChangeNotifier {
   List<Playlist> get playlists => _loadedPlaylists;
 
 
-    //_loadedSongs = await SongReader.fetchAvailableSongs();
+  //_loadedSongs = await SongReader.fetchAvailableSongs();
   Future<void> _loadSongs() async {
     _loadedSongs = await  songRepository.loadSongs();
     print(_loadedSongs);
