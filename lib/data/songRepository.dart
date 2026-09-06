@@ -17,7 +17,8 @@ class SongRepository {
           path TEXT NOT NULL UNIQUE,
           title TEXT,
           artist TEXT,
-          durationSeconds INTEGER
+          durationSeconds INTEGER,
+          is_favorited INTEGER NOT NULL DEFAULT 0
       );
 
       CREATE TABLE playlists (
@@ -50,7 +51,7 @@ class SongRepository {
       'song_database.db',
     );
 
-    await deleteDatabase(path);
+    //await deleteDatabase(path);
 
     database = await openDatabase(
       path,
@@ -65,13 +66,13 @@ class SongRepository {
     await database.insert(
       SongRepository.songsTable, 
       song.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.abort,
+      conflictAlgorithm: ConflictAlgorithm.ignore,
+
     );
   } 
 
   Future<void> populateWithUserSongs() async {
     List<Song> userSongs = await SongFileReader.fetchUserLibrarySongs();
-
     for (final song in userSongs) {
       await insertIfNotPresent(song);
     }
@@ -89,6 +90,16 @@ class SongRepository {
       for (final entry in songMaps) 
         Song.fromEntry(entry)
     ];
+  }
+
+
+  Future<void> favoriteSong(Song song) async {
+    database.update(
+      SongRepository.songsTable,
+      song.toMap(),
+      where: 'id = ?',
+      whereArgs: [song.id!]
+    );
   }
 
   void loadPlaylists() {

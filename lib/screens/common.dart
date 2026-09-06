@@ -91,7 +91,7 @@ class FavoriteIcon extends StatelessWidget {
   final SongModel songModel;
 
   Widget _getFavoriteIcon() {
-    return songModel.isInFavorites(song) 
+    return song.isFavorited 
     ? Icon(Icons.favorite) 
     : Icon(Icons.favorite_border);
   }
@@ -99,13 +99,13 @@ class FavoriteIcon extends StatelessWidget {
   void _toggleFavorite(BuildContext context) {
     String snackBarText;
 
-    if (songModel.favorites.contains(song)) {
-      songModel.removeFromFavorite(song);
+    if (song.isFavorited) {
       snackBarText = "Removed ${song.title} from Favorites";
     } else {
-      songModel.addToFavorite(song);
       snackBarText = "Added ${song.title} to Favorites";
     }
+
+    songModel.toggleFavorite(song);
 
     SnackBar snackBar = SnackBar(content: Text(snackBarText));
 

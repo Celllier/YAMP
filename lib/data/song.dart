@@ -15,14 +15,18 @@ class Song {
     required this._durationSeconds, 
     this._albumArt = Song.defaultAlbumArt,
     this._sourcePath = Song.deafultSourcePath,
+    this._favorited = false,
+    this._id,
   });
 
   Song.fromEntry(Map<String, Object?> dbEntry) : this 
     (
+      id: dbEntry['id'] as int,
       artist: dbEntry['artist'] as String, 
       title: dbEntry['title'] as String, 
       durationSeconds: dbEntry['durationSeconds'] as int,
       sourcePath: dbEntry['path'] as String,
+      favorited: dbEntry['is_favorited'] as int == 0 ? false : true,
     );
 
   Map<String, Object?> toMap() {
@@ -31,20 +35,32 @@ class Song {
       'title': _title, 
       'durationSeconds': _durationSeconds,
       'path': _sourcePath,
+      'is_favorited': _favorited ? 1 : 0,
     };
   }
 
-  int? id;
+  void toggleFavorite() {
+    if (_favorited) {
+      _favorited = false;
+    } else {
+      _favorited = true;
+    }
+  }
+
+  int? _id;
   final String _artist;
   final String _title;
   final int _durationSeconds;
   final SongImage _albumArt;
   final String _sourcePath;
+  bool _favorited;
 
+  int? get id => _id;
   String get artist => _artist;
   String get title => _title;
   int get durationSeconds => _durationSeconds;
   String get sourcePath => _sourcePath;
+  bool get isFavorited => _favorited;
 
   Widget get imageWidget => _albumArt.displayImage();
   
@@ -107,17 +123,19 @@ class SongModel extends ChangeNotifier {
     return _favorites.contains(song);
   }
 
-  void addToFavorite(Song song) {
-    _favorites.add(song);
+  void toggleFavorite(Song song) {
+    song.toggleFavorite();
+    songRepository.favoriteSong(song);
+    //_favorites.add(song);
     notifyListeners();
   }
 
-  void removeFromFavorite(Song song) {
-    if (_favorites.contains(song)) {
-      _favorites.remove(song);
-    }
-    notifyListeners();
-  }
+  //void removeFromFavorite(Song song) {
+  //  if (_favorites.contains(song)) {
+  //    _favorites.remove(song);
+  //  }
+  //  notifyListeners();
+  //}
 
   void clearFavorites() {
     _favorites.clear();
