@@ -6,64 +6,24 @@ import 'songFileReader.dart';
 
 class SongRepository {
 
-  late Database database;
-
   static const String songsTable = "songs";  
 
-  static String getDatabasesSchema() {
-    return """
-      CREATE TABLE songs (
-          id INTEGER PRIMARY KEY,
-          path TEXT NOT NULL UNIQUE,
-          title TEXT,
-          artist TEXT,
-          durationSeconds INTEGER,
-          is_favorited INTEGER NOT NULL DEFAULT 0
-      );
-
-      CREATE TABLE playlists (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT NOT NULL,
-          created_at INTEGER NOT NULL
-      );
-
-      CREATE TABLE playlist_songs (
-          playlist_id INTEGER NOT NULL,
-          song_id INTEGER NOT NULL,
-          position INTEGER NOT NULL,
-
-          PRIMARY KEY (playlist_id, song_id),
-
-          FOREIGN KEY (playlist_id)
-              REFERENCES playlists(id)
-              ON DELETE CASCADE,
-
-          FOREIGN KEY (song_id)
-              REFERENCES songs(id)
-              ON DELETE CASCADE
-      );
-    """;
+  SongRepository({
+    required this._database
+  }) {
+    init();
   }
+ 
+  final Database _database;
 
-  Future<void> loadDatabase() async {
-    final path = join(
-      await getDatabasesPath(),
-      'song_database.db',
-    );
 
-    //await deleteDatabase(path);
-
-    database = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, version) => 
-        db.execute(SongRepository.getDatabasesSchema()),
-    );  
+  Future<void> init() async {
+    await populateWithUserSongs();
   }
 
 
   Future<void> insertIfNotPresent(Song song) async {
-    await database.insert(
+    await _database.insert(
       SongRepository.songsTable, 
       song.toMap(),
       conflictAlgorithm: ConflictAlgorithm.ignore,
@@ -79,7 +39,7 @@ class SongRepository {
   }
 
   Future<List<Song>> loadSongs({int limit = 10}) async {
-    final List<Map<String, Object?>> songMaps = await database.query(
+    final List<Map<String, Object?>> songMaps = await _database.query(
       SongRepository.songsTable,
       limit: limit,
     );
@@ -94,7 +54,7 @@ class SongRepository {
 
 
   Future<void> favoriteSong(Song song) async {
-    database.update(
+    _database.update(
       SongRepository.songsTable,
       song.toMap(),
       where: 'id = ?',

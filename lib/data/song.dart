@@ -126,16 +126,8 @@ class SongModel extends ChangeNotifier {
   void toggleFavorite(Song song) {
     song.toggleFavorite();
     songRepository.favoriteSong(song);
-    //_favorites.add(song);
     notifyListeners();
   }
-
-  //void removeFromFavorite(Song song) {
-  //  if (_favorites.contains(song)) {
-  //    _favorites.remove(song);
-  //  }
-  //  notifyListeners();
-  //}
 
   void clearFavorites() {
     _favorites.clear();

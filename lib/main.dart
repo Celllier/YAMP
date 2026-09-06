@@ -1,4 +1,3 @@
-import 'package:sqflite/sqflite.dart';
 import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,20 +7,17 @@ import 'screens/navigation.dart';
 import 'data/songPlayer.dart';
 import 'data/songRepository.dart';
 
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'data/databaseBuilder.dart';
 
-
-SongRepository songRepository = SongRepository();
-
+//SongRepository songRepository = SongRepository();
+DatabaseBuilder databaseBuilder = DatabaseBuilder();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
-
-  await songRepository.loadDatabase();
-  await songRepository.populateWithUserSongs();
+  await databaseBuilder.init();
+  SongRepository songRepository = 
+        SongRepository(database: databaseBuilder.database);
 
   runApp(
       MultiProvider(

@@ -7,7 +7,7 @@ import '../data/song.dart';
 
 class PlaylistListingPage extends StatelessWidget {
 
-  PlaylistListingPage({super.key, required this.songModel});
+  const PlaylistListingPage({super.key, required this.songModel});
 
   final SongModel songModel;
 
