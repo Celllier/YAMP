@@ -60,14 +60,14 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       ),
 
       body: Consumer2<SongModel, SongPlayer>(
-        builder: (context, songModel, songPlayer, child) =>PageView(
+        builder: (context, songModel, songPlayer, child) => PageView(
             controller: _pageController,
             onPageChanged: _onPageChanged,
             children: [
-              SongListView(list: songModel.availableSongs, songModel: songModel),
+              AvailableSongsView(),
               PlaylistListingPage(songModel: songModel),
-              SongListView(list: songPlayer.songQueueList, songModel: songModel),
-              SongListView(list: songModel.favorites, songModel: songModel),
+              SongListView(list: songPlayer.songQueueList),
+              FavoritesView(),
             ],
           ),
       )
@@ -77,4 +77,26 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 }
 
 
+class FavoritesView extends StatelessWidget {
+  const FavoritesView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<FavoriteModel>(
+      builder: (context, favoriteModel, child) => 
+        SongListView(list: favoriteModel.favorites)
+    );
+  }
+}
+
+class AvailableSongsView extends StatelessWidget  {
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<SongModel>(
+      builder: (context, songModel, child) => 
+        SongListView(list: songModel.availableSongs),
+    );
+  }
+}
 

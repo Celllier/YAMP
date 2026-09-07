@@ -9,7 +9,6 @@ import 'data/songRepository.dart';
 
 import 'data/databaseBuilder.dart';
 
-//SongRepository songRepository = SongRepository();
 DatabaseBuilder databaseBuilder = DatabaseBuilder();
 
 void main() async {
@@ -23,6 +22,7 @@ void main() async {
       MultiProvider(
         providers: [
           ChangeNotifierProvider<SongModel>(create: (context) => SongModel(songRepository: songRepository)),
+          ChangeNotifierProvider<FavoriteModel>(create: (context) => FavoriteModel(songRepository: songRepository)),
           ChangeNotifierProvider<SongPlayer>(create: (context) => SongPlayer()),
         ],
         child: const MainApp(),

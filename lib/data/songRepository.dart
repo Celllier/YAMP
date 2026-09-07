@@ -53,8 +53,8 @@ class SongRepository {
   }
 
 
-  Future<void> favoriteSong(Song song) async {
-    _database.update(
+  Future<void> toggleFavorite(Song song) async {
+    await _database.update(
       SongRepository.songsTable,
       song.toMap(),
       where: 'id = ?',
@@ -62,8 +62,36 @@ class SongRepository {
     );
   }
 
+
+    Future<void> toggleFavoriteVal(Song song, bool newValue) async {
+    final value = {'is_favorited': newValue ? 1 : 0};
+    await _database.update(
+      SongRepository.songsTable,
+      value,
+      where: 'id = ?',
+      whereArgs: [song.id!]
+    );
+  }
+
   void loadPlaylists() {
     
+  }
+
+  Future<List<Song>> fetchFavorites({int limit = 10, int offset = 0}) async {
+    final List<Map<String, Object?>> songMaps = await _database.query(
+      SongRepository.songsTable,
+      where: 'is_favorited = 1',
+      limit: limit,
+      offset: offset,
+    );
+
+    print('favorites');
+    print(songMaps);
+
+    return [
+      for (final entry in songMaps) 
+        Song.fromEntry(entry)
+    ];
   }
   
 }

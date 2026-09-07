@@ -45,8 +45,8 @@ class SongPageView extends StatelessWidget {
 
           Padding(padding: EdgeInsetsGeometry.directional(bottom: 20)),
 
-          Consumer<SongModel>(
-            builder: (context, songModel, child) => 
+          Consumer<FavoriteModel>(
+            builder: (context, favoriteModel, child) => 
               Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -54,7 +54,7 @@ class SongPageView extends StatelessWidget {
                   children: [
                     QueueButton(song: song),
                     PlayButton(song: song),
-                    FavoriteIcon(song: song, songModel: songModel)
+                    FavoriteIcon(song: song, favoriteModel: favoriteModel)
                   ],
                 ),
               ),

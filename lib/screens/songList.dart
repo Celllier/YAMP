@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'songDetails.dart';
 import 'common.dart';
 
+import 'package:provider/provider.dart';
+
 class SongListView extends StatelessWidget {
 
-  const SongListView({super.key, required this.list, required this.songModel});
+  const SongListView({super.key, required this.list});
 
   final List<Song> list;
-  final SongModel songModel;
   
 
   @override
@@ -18,7 +19,7 @@ class SongListView extends StatelessWidget {
       child: ListView(
         children: [
           for (Song song in list) 
-            SongView(song: song, songModel: songModel),
+            SongView(song: song),
         ],
       ),
     );
@@ -28,10 +29,9 @@ class SongListView extends StatelessWidget {
 
 
 class SongView extends StatelessWidget {
-  const SongView({super.key, required this.song, required this.songModel});
+  const SongView({super.key, required this.song});
 
   final Song song;
-  final SongModel songModel;
 
   String _formatDuration(int seconds) {
     String min = "${(song.durationSeconds / 60).floor()}";
@@ -51,15 +51,17 @@ class SongView extends StatelessWidget {
   }
 
 
-  Widget _buildTrailing(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      spacing: 10,
-      children: [
-        FavoriteIcon(song: song, songModel: songModel),
-        
-        Text(_formatDuration(song.durationSeconds)),
-      ],
+  Widget _buildTrailing() {
+    return Consumer<FavoriteModel>(
+      builder: (context, favoriteModel, child) => 
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 10,
+          children: [
+            FavoriteIcon(song: song, favoriteModel: favoriteModel),
+            Text(_formatDuration(song.durationSeconds)),
+          ],
+        ) 
     );
   }
 
@@ -67,7 +69,7 @@ class SongView extends StatelessWidget {
   @override  
   Widget build(BuildContext context) {
     return ListTile(
-      trailing: _buildTrailing(context),
+      trailing: _buildTrailing(),
       leading: _buildLeading(),
       title: Text(song.title),
       subtitle: Text(song.artist),

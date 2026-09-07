@@ -47,6 +47,16 @@ class Song {
     }
   }
 
+  @override
+  bool operator ==(Object other) {
+    return other is Song && other._sourcePath == _sourcePath;
+  }
+
+  @override
+  String toString() {
+    return "${_title} - isFavorited: ${isFavorited}";
+  }
+
   int? _id;
   final String _artist;
   final String _title;
@@ -91,14 +101,13 @@ class Playlist extends ChangeNotifier {
 
 class SongModel extends ChangeNotifier {
 
-  SongModel({required this.songRepository}) {
+  SongModel({required this._songRepository}) {
     _loadSongs();
   }
 
-  final SongRepository songRepository;
+  final SongRepository _songRepository;
 
   List<Song> _loadedSongs = [];
-  final List<Song> _favorites = []; 
 
   // need playlist loader
   final List<Playlist> _loadedPlaylists = [
@@ -109,34 +118,60 @@ class SongModel extends ChangeNotifier {
   List<Playlist> get playlists => _loadedPlaylists;
 
 
-  //_loadedSongs = await SongReader.fetchAvailableSongs();
   Future<void> _loadSongs() async {
-    _loadedSongs = await  songRepository.loadSongs();
-    print(_loadedSongs);
+    _loadedSongs = await _songRepository.loadSongs();
     notifyListeners();
   }
+
 
   List<Song> get availableSongs => _loadedSongs;
-  List<Song> get favorites => _favorites;
-
-  bool isInFavorites(Song song) {
-    return _favorites.contains(song);
-  }
-
-  void toggleFavorite(Song song) {
-    song.toggleFavorite();
-    songRepository.favoriteSong(song);
-    notifyListeners();
-  }
-
-  void clearFavorites() {
-    _favorites.clear();
-    notifyListeners();
-  }
 }
 
 
+// file just for favorites
+class FavoriteModel extends ChangeNotifier {
 
+  FavoriteModel({required this._songRepository}) {
+    fetchFavorites(); 
+  }
+
+  final SongRepository _songRepository;
+  List<Song> _favorites = []; 
+
+
+  void toggleFavorite(Song song) {
+    song.toggleFavorite();
+    _songRepository.toggleFavoriteVal(song, song.isFavorited);
+    _updateFavoritesList(song);
+    notifyListeners();
+  }
+
+
+  //probelmatic because Song objects in SongModel and FavoriteModel are different
+  void _updateFavoritesList(Song song) {
+    if (_favorites.contains(song)) {
+      _favorites.remove(song);
+    } else {
+      _favorites.add(song);
+    }
+//
+    print("songs in favorites");
+    print(_favorites);
+  }
+
+  void fetchFavorites() async {
+    _favorites = await _songRepository.fetchFavorites();
+    notifyListeners();
+  }
+
+  
+   List<Song> get favorites => _favorites;
+
+}
+
+
+  //when removing from favorites page, a song that has been loaded from the db, in the songs page it remains as favorited
+  //problematic when song loaded from database is toggled
 
 abstract class SongImage {
 

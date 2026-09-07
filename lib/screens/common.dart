@@ -85,10 +85,11 @@ class MyBottomSheet extends StatelessWidget {
 
 class FavoriteIcon extends StatelessWidget {
 
-  const FavoriteIcon({super.key, required this.song, required this.songModel});
+  const FavoriteIcon({super.key, required this.song, required this.favoriteModel});
 
   final Song song;
-  final SongModel songModel;
+  final FavoriteModel favoriteModel;
+  //TODO: function call back onFavorited for abstracted snackbar
 
   Widget _getFavoriteIcon() {
     return song.isFavorited 
@@ -105,7 +106,7 @@ class FavoriteIcon extends StatelessWidget {
       snackBarText = "Added ${song.title} to Favorites";
     }
 
-    songModel.toggleFavorite(song);
+    favoriteModel.toggleFavorite(song);
 
     SnackBar snackBar = SnackBar(content: Text(snackBarText));
 
@@ -139,26 +140,3 @@ class QueueButton extends StatelessWidget {
     );
   } 
 }
-
-
-//class SongAlbumArt extends StatelessWidget {
-//
-//  const SongAlbumArt({super.key, required this.songImage});
-//
-//  final SongImage songImage;
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return AspectRatio(
-//      aspectRatio: 1,
-//      child: Container(
-//        decoration: BoxDecoration(
-//          image: DecorationImage(
-//            
-//            )
-//        ),
-//      ),
-//    );
-//    
-//  }
-//}
