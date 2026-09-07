@@ -6,6 +6,7 @@ import 'common.dart';
 import '../data/song.dart';
 
 import '../data/songPlayer.dart';
+import '../data/favorite.dart';
 
 
 class SongPage extends StatelessWidget {

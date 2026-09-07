@@ -1,6 +1,7 @@
 import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
 
+import '../data/favorite.dart';
 import 'songDetails.dart';
 import 'common.dart';
 

@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 
 import 'screens/navigation.dart';
 
+import 'data/favorite.dart';
 import 'data/songPlayer.dart';
 import 'data/songRepository.dart';
+
 
 import 'data/databaseBuilder.dart';
 

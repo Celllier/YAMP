@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../data/song.dart';
+import '../data/favorite.dart';
 import '../data/songPlayer.dart';
 import 'songDetails.dart';
 
