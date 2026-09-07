@@ -83,9 +83,9 @@ class FavoritesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FavoriteModel>(
-      builder: (context, favoriteModel, child) => 
-        SongListView(list: favoriteModel.favorites)
+    return Consumer2<FavoriteModel, SongModel>(
+      builder: (context, favoriteModel, songModel, child) => 
+        SongListView(list: favoriteModel.fetchFavorites(songModel))
     );
   }
 }

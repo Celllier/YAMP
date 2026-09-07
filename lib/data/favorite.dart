@@ -8,38 +8,43 @@ import 'song.dart';
 class FavoriteModel extends ChangeNotifier {
 
   FavoriteModel({required this._songRepository}) {
-    fetchFavorites(); 
+    loadDatabaseFavorites();
   }
 
   final SongRepository _songRepository;
+  //final SongModel songModel;
+
   List<Song> _favorites = []; 
 
+  Set<int> favoriteIds = Set();
 
+
+  // change param to id
   void toggleFavorite(Song song) {
+    // should return if favoited o unfavorited
     song.toggleFavorite();
     _songRepository.toggleFavoriteVal(song, song.isFavorited);
-    _updateFavoritesList(song);
+    _updateFavoriteSet(song);
     notifyListeners();
   }
 
+  void loadDatabaseFavorites() async {
+    favoriteIds = await _songRepository.fetchFavoritesIds();
+  }
 
-  void _updateFavoritesList(Song song) {
-    if (_favorites.contains(song)) {
-      _favorites.remove(song);
+  void _updateFavoriteSet(Song song) {
+    int id = song.id!;
+    if (favoriteIds.contains(id)) {
+      favoriteIds.remove(id);
     } else {
-      _favorites.add(song); 
+      favoriteIds.add(id); 
     }
-
-    print("songs in favorites");
-    print(_favorites);
   }
 
-  void fetchFavorites() async {
-    _favorites = await _songRepository.fetchFavorites();
-    notifyListeners();
+  List<Song> fetchFavorites(SongModel songModel) {
+    return songModel.availableSongs.where((song) => 
+      favoriteIds.contains(song.id!)
+    ).toList();
   }
-
   
-   List<Song> get favorites => _favorites;
-
 }
