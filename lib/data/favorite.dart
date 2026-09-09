@@ -8,15 +8,13 @@ import 'song.dart';
 class FavoriteModel extends ChangeNotifier {
 
   FavoriteModel({required this._songRepository}) {
-    loadDatabaseFavorites();
+    _loadDatabaseFavorites();
   }
 
   final SongRepository _songRepository;
-  //final SongModel songModel;
 
-  List<Song> _favorites = []; 
 
-  Set<int> favoriteIds = Set();
+  Set<int> favoriteIds = {};
 
 
   // change param to id
@@ -28,7 +26,7 @@ class FavoriteModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void loadDatabaseFavorites() async {
+  void _loadDatabaseFavorites() async {
     favoriteIds = await _songRepository.fetchFavoritesIds();
   }
 

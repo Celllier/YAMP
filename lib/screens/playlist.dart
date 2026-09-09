@@ -1,9 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:yamp/screens/navigation.dart';
 import 'common.dart';
 
 import '../data/song.dart';
+import '../data/playlist.dart';
 
 class PlaylistListingPage extends StatelessWidget {
 
@@ -21,17 +23,44 @@ class PlaylistListingPage extends StatelessWidget {
             style: TextTheme.of(context).headlineMedium,
           ),
       
-          ListView(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            children: [
-              for (final playlist in songModel.playlists) 
-                _buildPlayListTile(playlist)
-            ],
+          Consumer<PlaylistModel>(
+            builder: (context, playlistModel, child) => ListView(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              children: [
+                for (final playlist in playlistModel.playlists) 
+                  _buildPlayListTile(playlist)
+              ],
+            ),
           ),
       
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                context: context, 
+                isDismissible: true,
+                showDragHandle: true,
+                builder: (context) => 
+                  Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          'Create a Playlist',
+                          style: TextTheme.of(context).titleLarge,
+                        ),
+                        TextField(
+                          autofocus: true,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.person),
+                            labelText: 'Name your playlist',
+                            hintText: 'My Playlist', 
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+              );
+            },
             child: Icon(Icons.add),
           )
         ],

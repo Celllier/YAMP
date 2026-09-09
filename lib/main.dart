@@ -7,7 +7,7 @@ import 'screens/navigation.dart';
 import 'data/favorite.dart';
 import 'data/songPlayer.dart';
 import 'data/songRepository.dart';
-
+import 'data/playlist.dart';
 
 import 'data/databaseBuilder.dart';
 
@@ -25,6 +25,7 @@ void main() async {
         providers: [
           ChangeNotifierProvider<SongModel>(create: (context) => SongModel(songRepository: songRepository)),
           ChangeNotifierProvider<FavoriteModel>(create: (context) => FavoriteModel(songRepository: songRepository)),
+          ChangeNotifierProvider<PlaylistModel>(create: (context) => PlaylistModel(songRepository: songRepository)),
           ChangeNotifierProvider<SongPlayer>(create: (context) => SongPlayer()),
         ],
         child: const MainApp(),

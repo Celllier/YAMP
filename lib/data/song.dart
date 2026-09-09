@@ -77,28 +77,6 @@ class Song {
 }
 
 
-class Playlist extends ChangeNotifier {
-
-  final Queue<Song> _queue = Queue();
-
-  final String _name = "Default playlist";
-
-  void add(Song song) {
-    _queue.add(song);
-    notifyListeners();
-  } 
-
-  void remove(Song song) {
-    _queue.remove(song);
-    notifyListeners();
-  }
-
-  String get name => _name;
-}
-
-
-
-
 class SongModel extends ChangeNotifier {
 
   SongModel({required this._songRepository}) {
@@ -108,15 +86,6 @@ class SongModel extends ChangeNotifier {
   final SongRepository _songRepository;
 
   List<Song> _loadedSongs = [];
-
-  // need playlist loader
-  final List<Playlist> _loadedPlaylists = [
-    Playlist(),
-    Playlist(),
-  ];
-
-  List<Playlist> get playlists => _loadedPlaylists;
-
 
   Future<void> _loadSongs() async {
     _loadedSongs = await _songRepository.loadSongs();
