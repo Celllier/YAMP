@@ -75,9 +75,6 @@ class SongRepository {
     );
   }
 
-  void loadPlaylists() {
-    
-  }
 
   Future<Set<int>> fetchFavoritesIds({int limit = 10, int offset = 0}) async {
     final List<Map<String, Object?>> songMaps = await _database.query(
@@ -95,6 +92,24 @@ class SongRepository {
     
     return ids;
 
+  }
+
+  Future<List<Playlist>> loadPlaylists({int limit = 10, int offset = 0}) async {
+    final List<Map<String, Object?>> playlistMaps = await _database.query(
+      SongRepository.playlistTable,
+      limit: limit,
+      offset: offset,
+    );
+
+    List<Playlist> playlists = [];
+    for (final entry in playlistMaps) {
+      playlists.add(Playlist(
+        name: entry['name'] as String,
+        id: entry['id'] as int,
+      ));
+    }
+
+    return playlists;
   }
 
 

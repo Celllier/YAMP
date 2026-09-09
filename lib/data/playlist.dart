@@ -38,15 +38,13 @@ class PlaylistModel extends ChangeNotifier {
   }
 
   final SongRepository _songRepository;
+  List<Playlist> _loadedPlaylists = [];
 
   Future<void> _loadDatabasePlaylists() async {
-
+    _loadedPlaylists = await _songRepository.loadPlaylists();
+    notifyListeners();
   }
 
-  final List<Playlist> _loadedPlaylists = [
-    Playlist(name: 'Default Playlist'),
-    Playlist(name: 'Default Playlist'),
-  ];
 
   void createPlaylist(String name) async {
     Playlist playlist = await _songRepository.createPlaylist(name);
