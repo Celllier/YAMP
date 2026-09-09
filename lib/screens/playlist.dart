@@ -13,6 +13,15 @@ class PlaylistListingPage extends StatelessWidget {
 
   final SongModel songModel;
 
+  void _showPlaylistCreateModal(BuildContext context) {
+    showModalBottomSheet(
+      context: context, 
+      isDismissible: true,
+      showDragHandle: true,
+      builder: (context) => _PlaylistNameForm()
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -35,32 +44,7 @@ class PlaylistListingPage extends StatelessWidget {
           ),
       
           FloatingActionButton(
-            onPressed: () {
-              showModalBottomSheet(
-                context: context, 
-                isDismissible: true,
-                showDragHandle: true,
-                builder: (context) => 
-                  Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          'Create a Playlist',
-                          style: TextTheme.of(context).titleLarge,
-                        ),
-                        TextField(
-                          autofocus: true,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.person),
-                            labelText: 'Name your playlist',
-                            hintText: 'My Playlist', 
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-              );
-            },
+            onPressed: () => _showPlaylistCreateModal(context),
             child: Icon(Icons.add),
           )
         ],
@@ -81,3 +65,86 @@ class PlaylistListingPage extends StatelessWidget {
 
 
 
+
+class _PlaylistNameForm extends StatefulWidget {
+
+  @override
+  State<_PlaylistNameForm> createState() => _PlaylistNameFormState();
+}
+
+
+class _PlaylistNameFormState extends State<_PlaylistNameForm> {
+
+  final _formController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String? formErrorText;
+
+  static String emptyNameError = 'Name cannot be empty';
+
+  @override
+  void dispose() {
+    _formController.dispose();
+    super.dispose();
+  }
+
+  bool _isFormValid() {
+    return formKey.currentState!.validate();
+  }
+
+  void _submitForm(BuildContext context, PlaylistModel playlistModel) {
+    if (!_isFormValid()) {
+      return;
+    }
+
+    //playlistModel.asdf
+    Navigator.pop(context);
+  }
+
+  String? _validateInput(String? input) {
+    return (input != null && input.trim().isNotEmpty) 
+                ? null 
+                : _PlaylistNameFormState.emptyNameError; 
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Form(
+          key: formKey,
+          child: Column(
+            spacing: 20,
+            children: [
+              Text(
+                'Create a Playlist',
+                style: TextTheme.of(context).titleLarge,
+              ),
+
+              TextFormField(
+                controller: _formController,
+                validator: _validateInput,
+                forceErrorText: formErrorText,
+                autofocus: true,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.abc),
+                  labelText: 'Name your playlist (*)',
+                  hintText: 'My Playlist...', 
+                ),
+              ),
+
+              Consumer<PlaylistModel>(
+                builder: (context, playlistModel, child) => 
+                  FloatingActionButton(
+                    onPressed: () => _submitForm(context, playlistModel),
+                    child: const Text('Submit'),
+                  ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
