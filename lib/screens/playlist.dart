@@ -1,11 +1,13 @@
 
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:yamp/screens/navigation.dart';
 import 'common.dart';
 
 import '../data/song.dart';
 import '../data/playlist.dart';
+import 'playlistDetails.dart';
 
 class PlaylistListingPage extends StatelessWidget {
 
@@ -38,7 +40,7 @@ class PlaylistListingPage extends StatelessWidget {
               shrinkWrap: true,
               children: [
                 for (final playlist in playlistModel.playlists) 
-                  _buildPlayListTile(playlist)
+                  _buildPlayListTile(context, playlist)
               ],
             ),
           ),
@@ -54,9 +56,14 @@ class PlaylistListingPage extends StatelessWidget {
 
 
 
-  Widget _buildPlayListTile(Playlist playlist) {
+  Widget _buildPlayListTile(BuildContext context, Playlist playlist) {
     return ListTile(
       leading: Text(playlist.name),
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>
+          PlaylistDetailsPage(playlist: playlist))
+      )
     );
   }
 }
@@ -67,7 +74,6 @@ class PlaylistListingPage extends StatelessWidget {
 
 
 class _PlaylistNameForm extends StatefulWidget {
-
   @override
   State<_PlaylistNameForm> createState() => _PlaylistNameFormState();
 }
