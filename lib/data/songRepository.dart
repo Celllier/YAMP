@@ -1,5 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:yamp/data/playlist.dart';
 
 import 'song.dart';
 import 'songFileReader.dart';
@@ -7,6 +8,7 @@ import 'songFileReader.dart';
 class SongRepository {
 
   static const String songsTable = "songs";  
+  static const String playlistTable = "playlists";
 
   SongRepository({
     required this._database
@@ -63,7 +65,7 @@ class SongRepository {
   }
 
 
-    Future<void> toggleFavoriteVal(Song song, bool newValue) async {
+  Future<void> toggleFavoriteVal(Song song, bool newValue) async {
     final value = {'is_favorited': newValue ? 1 : 0};
     await _database.update(
       SongRepository.songsTable,
@@ -93,6 +95,19 @@ class SongRepository {
     
     return ids;
 
+  }
+
+
+  Future<Playlist> createPlaylist(String name) async {
+    final int now = DateTime.now().millisecondsSinceEpoch;
+    Map<String, Object?> map = {'name': name, 'created_at': now};
+
+    int id = await _database.insert(
+      SongRepository.playlistTable, 
+      map
+    );
+
+    return Playlist(name: name, id: id);
   }
   
 }

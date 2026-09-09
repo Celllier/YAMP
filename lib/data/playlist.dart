@@ -6,9 +6,15 @@ import 'song.dart';
 
 class Playlist extends ChangeNotifier {
 
-  final Queue<Song> _queue = Queue();
+  Playlist({
+    required this._name,
+    this._id
+  });
 
-  final String _name = "Default playlist";
+  final Queue<Song> _queue = Queue();
+  final String _name;
+  int? _id;
+
 
   void add(Song song) {
     _queue.add(song);
@@ -38,9 +44,15 @@ class PlaylistModel extends ChangeNotifier {
   }
 
   final List<Playlist> _loadedPlaylists = [
-    Playlist(),
-    Playlist(),
+    Playlist(name: 'Default Playlist'),
+    Playlist(name: 'Default Playlist'),
   ];
+
+  void createPlaylist(String name) async {
+    Playlist playlist = await _songRepository.createPlaylist(name);
+    _loadedPlaylists.add(playlist);
+    notifyListeners();
+  }
 
   List<Playlist> get playlists => _loadedPlaylists;
 }

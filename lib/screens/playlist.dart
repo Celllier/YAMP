@@ -96,7 +96,7 @@ class _PlaylistNameFormState extends State<_PlaylistNameForm> {
       return;
     }
 
-    //playlistModel.asdf
+    playlistModel.createPlaylist(_formController.text);
     Navigator.pop(context);
   }
 
