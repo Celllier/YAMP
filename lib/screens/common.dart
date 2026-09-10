@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -5,6 +7,9 @@ import '../data/song.dart';
 import '../data/favorite.dart';
 import '../data/songPlayer.dart';
 import 'songDetails.dart';
+
+import 'package:liquid_glass_easy/liquid_glass_easy.dart';
+
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
@@ -33,54 +38,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 
 
-class MyBottomSheet extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<SongPlayer>(
-      builder: (context, songPlayer, child) {
-        
-        if (songPlayer.playingSong == null) {
-          return const SizedBox.shrink();
-        }
-
-        //String albumImgPath = songPlayer.playingSong?.albumArtPath 
-        //               ?? "assets/albums/arvores.jpg";
-
-        String songTitle = songPlayer.playingSong?.title ?? "Not Playing";
-        String artistName = songPlayer.playingSong?.artist ?? "Unknown";
-        Song song = songPlayer.playingSong!;
-
-        return Container(
-          decoration: BoxDecoration(
-            //color: Colors.,
-            border: BoxBorder.all(width: 2),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 60,
-                child: song.imageWidget,
-              ),
-
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(songTitle, style: TextTheme.of(context).labelLarge),
-                  Text(artistName, style: TextTheme.of(context).labelSmall),
-                  SongSlider(song: songPlayer.playingSong!, width: 450, height: 50)
-                ],
-              ),
-
-              PlayButton(song: songPlayer.playingSong!)
-            ],
-          ),
-        );
-      }
-    );  
-  }
-}
 
 
 
@@ -118,9 +75,9 @@ class FavoriteIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return IconButton(
       onPressed: () => _toggleFavorite(context), 
-      child: _getFavoriteIcon()
+      icon: _getFavoriteIcon(),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
 
 import 'common.dart';
+import 'common/miniPlayer.dart';
 import '../data/song.dart';
 
 import '../data/songPlayer.dart';
@@ -19,7 +20,7 @@ class SongPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: song.title, automaticallyImplyLeading: true),
-      bottomSheet: MyBottomSheet(),
+      bottomSheet: MiniPlayerSheet(),
       body: SongPageView(song: song)
     );
   }
@@ -125,11 +126,12 @@ class PlayButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<SongPlayer>(
       builder: (context, songPlayer, child) =>  
-          FloatingActionButton(
-            heroTag: UniqueKey(),
+          IconButton(
+            //heroTag: UniqueKey(),
             onPressed: () => _toggleSong(songPlayer),
-            elevation: 0.0,
-            child: _getButtonIcon(songPlayer),
+            //elevation: 0.0,
+            icon: _getButtonIcon(songPlayer),
+            //child: _getButtonIcon(songPlayer),
           )
       
       );

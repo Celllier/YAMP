@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yamp/data/song.dart';
@@ -7,6 +5,7 @@ import 'package:yamp/screens/songList.dart';
 import '../data/playlist.dart';
 
 import 'common.dart';
+import 'common/miniPlayer.dart';
 
 class PlaylistDetailsPage extends StatelessWidget {
 
@@ -21,6 +20,7 @@ class PlaylistDetailsPage extends StatelessWidget {
         title: _playlist.name,
         automaticallyImplyLeading: true,
       ),
+      bottomSheet: MiniPlayerSheet(),
       body: PlaylistDetailsView(playlist: _playlist)
       
     );
@@ -64,7 +64,6 @@ class PlaylistDetailsView extends StatelessWidget {
             builder: (context, songModel, child) => 
               SongListView(list: _playlist.getSongList(songModel)),
           ),
-  
 
           FloatingActionButton(
             onPressed: _addSongToPlaylist,

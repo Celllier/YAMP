@@ -11,6 +11,7 @@ dependencies:
   audioplayers: ^6.8.1
   flutter:
     sdk: flutter
+  liquid_glass_easy: ^4.2.0
   path: ^1.9.1
   provider: ^6.1.5+1
   sqflite: ^2.4.3

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../data/favorite.dart';
 import 'common.dart';
+import 'common/miniPlayer.dart';
 import 'songList.dart';
 import 'playlist.dart';
 
@@ -48,7 +49,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(),
-      bottomSheet: MyBottomSheet(),
+      bottomSheet: MiniPlayerSheet(),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _selectedPageIndex,
         onDestinationSelected: _onDestinationSelected,
