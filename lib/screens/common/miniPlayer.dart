@@ -85,24 +85,24 @@ class MiniPlayerContents extends StatelessWidget {
   
           const SizedBox(width: 10),
   
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                song.title,
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
-              Text(
-                song.artist,
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
-              SongSlider(
-                song: song,
-                width: 450,
-                height: 30,
-              ),
-            ],
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  song.title,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                Text(
+                  song.artist,
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+                SongSlider(
+                  song: song,
+                ),
+              ],
+            ),
           ),
   
           const SizedBox(width: 10),

@@ -157,11 +157,8 @@ class SongSlider extends StatelessWidget {
         double max = playingPageSong ? songPlayer.duration : 1;
         double value = playingPageSong ? songPlayer.position : 0;
 
-        return SizedBox(
-            width: width,
-            height: height,
-            child: 
-            
+        return
+          
             Slider(
               thumbColor: Colors.black,
               activeColor: Colors.black87,
@@ -170,8 +167,7 @@ class SongSlider extends StatelessWidget {
               max: max,
               value: value.clamp(0, max),
               onChanged: songPlayer.seekSong
-            ),
-        );
+            );
       }  
     );
   }
