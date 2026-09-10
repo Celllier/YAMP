@@ -44,7 +44,7 @@ class MiniPlayerSheet extends StatelessWidget {
                     borderWidth: 1,
                   ),
                   appearance: LiquidGlassAppearance(
-                    color: const Color(0x99FFFFFF),
+                    color: const Color.fromARGB(136, 255, 255, 255),
                     blur: const LiquidGlassBlur(
                       sigmaX: 6,
                       sigmaY: 6,

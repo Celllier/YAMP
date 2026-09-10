@@ -38,6 +38,15 @@ class SongFileReader {
     return song;
   }
 
+  static SongImage fetchSongImage(String filePath) {
+    final file = File(filePath);
+    final metadata = readMetadata(file, getImage: true); 
+
+    return metadata.pictures.isNotEmpty 
+      ? SongByteImage(bytes:metadata.pictures[0].bytes) 
+      : Song.defaultAlbumArt;
+  }
+
     //  SongImage songImage = metadata.pictures.isNotEmpty 
   //    ? SongByteImage(bytes:metadata.pictures[0].bytes) 
   //    : Song.defaultAlbumArt;

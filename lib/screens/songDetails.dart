@@ -163,7 +163,7 @@ class SongSlider extends StatelessWidget {
             child: Slider(
               thumbColor: Colors.black,
               activeColor: Colors.black87,
-              inactiveColor: Colors.grey,
+              inactiveColor: Colors.white70,
               min: 0,
               max: max,
               value: value.clamp(0, max),

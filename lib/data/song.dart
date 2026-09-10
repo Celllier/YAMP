@@ -46,6 +46,10 @@ class Song {
     }
   }
 
+  void setImage(SongImage songImage) {
+    _albumArt = songImage;
+  }
+ 
   @override
   bool operator ==(Object other) {
     return other is Song && other._sourcePath == _sourcePath;
@@ -60,7 +64,7 @@ class Song {
   final String _artist;
   final String _title;
   final int _durationSeconds;
-  final SongImage _albumArt;
+  SongImage _albumArt;
   final String _sourcePath;
   bool _favorited;
 
@@ -94,6 +98,8 @@ class SongModel extends ChangeNotifier {
 
   List<Song> get availableSongs => _loadedSongs;
 }
+
+
 
 
 abstract class SongImage {

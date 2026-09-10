@@ -50,10 +50,16 @@ class SongRepository {
 
     print(songMaps);
 
-    return [
-      for (final entry in songMaps) 
-        Song.fromEntry(entry)
-    ];
+
+    List<Song> songs = [];
+    for (final entry in songMaps) {
+      Song song = Song.fromEntry(entry);
+      SongImage songImage = SongFileReader.fetchSongImage(song.sourcePath);
+      song.setImage(songImage);
+      songs.add(song);
+    }
+
+    return songs;
   }
 
 
