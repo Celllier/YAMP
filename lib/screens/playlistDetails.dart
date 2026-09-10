@@ -4,7 +4,7 @@ import 'package:yamp/data/song.dart';
 import 'package:yamp/screens/songList.dart';
 import '../data/playlist.dart';
 
-import 'common.dart';
+import 'common/common.dart';
 import 'common/miniPlayer.dart';
 
 class PlaylistDetailsPage extends StatelessWidget {

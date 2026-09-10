@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yamp/data/favorite.dart';
-import 'package:yamp/screens/common.dart';
+import 'package:yamp/screens/common/common.dart';
 
 import '../../data/song.dart';
 import '../../data/songPlayer.dart';

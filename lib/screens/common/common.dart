@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../data/song.dart';
-import '../data/favorite.dart';
-import '../data/songPlayer.dart';
+import '../../data/song.dart';
+import '../../data/favorite.dart';
+import '../../data/songPlayer.dart';
 
 import 'package:liquid_glass_easy/liquid_glass_easy.dart';
 
@@ -26,9 +26,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     return ClipRect(
       child: LiquidGlassLens(
         style: LiquidGlassStyle(
-          shape: LiquidGlassShape.continuousRoundedRectangle(cornerRadius: 0), // full-width, no rounding
+          shape: LiquidGlassShape.continuousRoundedRectangle(cornerRadius: 0), 
           appearance: LiquidGlassAppearance(
-            color: const Color(0x4DFFFFFF), // low opacity
+            color: const Color(0x4DFFFFFF), 
             blur: const LiquidGlassBlur(sigmaX: 18, sigmaY: 18),
           ),
         ),
@@ -36,7 +36,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withValues(alpha: 0.08),
                 width: 1,
               ),
             ),

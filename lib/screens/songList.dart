@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../data/favorite.dart';
 import 'songDetails.dart';
-import 'common.dart';
+import 'common/common.dart';
 
 import 'package:provider/provider.dart';
 

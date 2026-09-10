@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
 
-import 'common.dart';
+import 'common/common.dart';
 import 'common/miniPlayer.dart';
 import '../data/song.dart';
 
