@@ -6,9 +6,7 @@ import 'package:provider/provider.dart';
 import '../data/song.dart';
 import '../data/favorite.dart';
 import '../data/songPlayer.dart';
-import 'songDetails.dart';
 
-import 'package:liquid_glass_easy/liquid_glass_easy.dart';
 
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {

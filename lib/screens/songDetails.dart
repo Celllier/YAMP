@@ -143,11 +143,11 @@ class PlayButton extends StatelessWidget {
 
 class SongSlider extends StatelessWidget {
 
-  SongSlider({super.key, required this.song, this.width, this.height});
+  const SongSlider({super.key, required this.song, this.width, this.height});
 
   final Song song;
-  double? width;
-  double? height;
+  final double? width;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -161,6 +161,9 @@ class SongSlider extends StatelessWidget {
             width: width,
             height: height,
             child: Slider(
+              thumbColor: Colors.black,
+              activeColor: Colors.black87,
+              inactiveColor: Colors.grey,
               min: 0,
               max: max,
               value: value.clamp(0, max),

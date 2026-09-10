@@ -36,7 +36,7 @@ class PlaylistDetailsView extends StatelessWidget {
 
 
   void _addSongToPlaylist() {
-    int songId = 1;
+    //int songId = 1;
     //_playlist.add(song)
   }
 
