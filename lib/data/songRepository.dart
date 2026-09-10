@@ -42,7 +42,7 @@ class SongRepository {
     }
   }
 
-  Future<List<Song>> loadSongs({int limit = 10}) async {
+  Future<List<Song>> loadSongs({int limit = 20}) async {
     final List<Map<String, Object?>> songMaps = await _database.query(
       SongRepository.songsTable,
       limit: limit,

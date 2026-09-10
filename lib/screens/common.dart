@@ -7,6 +7,7 @@ import '../data/song.dart';
 import '../data/favorite.dart';
 import '../data/songPlayer.dart';
 
+import 'package:liquid_glass_easy/liquid_glass_easy.dart';
 
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -22,8 +23,32 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-        title: Text(title),
+    return ClipRect(
+      child: LiquidGlassLens(
+        style: LiquidGlassStyle(
+          shape: LiquidGlassShape.continuousRoundedRectangle(cornerRadius: 0), // full-width, no rounding
+          appearance: LiquidGlassAppearance(
+            color: const Color(0x4DFFFFFF), // low opacity
+            blur: const LiquidGlassBlur(sigmaX: 18, sigmaY: 18),
+          ),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.black.withOpacity(0.08),
+                width: 1,
+              ),
+            ),
+          ),
+          child: AppBar(
+            title: Text(title),
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+          ),
+        ),
+      ),
     );
   }
 

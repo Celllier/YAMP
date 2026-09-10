@@ -1,8 +1,9 @@
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yamp/data/favorite.dart';
+import 'package:yamp/screens/common.dart';
 
 import '../../data/song.dart';
 import '../../data/songPlayer.dart';
@@ -109,6 +110,15 @@ class MiniPlayerContents extends StatelessWidget {
           PlayButton(
             song: song,
           ),
+
+          Consumer<FavoriteModel>(
+            builder: (context, favoriteModel, child) => 
+              FavoriteIcon(
+                song: song, 
+                favoriteModel: favoriteModel
+              )
+          ),
+
         ],
       ),
     );

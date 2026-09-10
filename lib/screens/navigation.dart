@@ -48,6 +48,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: MyAppBar(),
       bottomSheet: MiniPlayerSheet(),
       bottomNavigationBar: NavigationBar(

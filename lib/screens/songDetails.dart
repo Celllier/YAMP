@@ -160,7 +160,9 @@ class SongSlider extends StatelessWidget {
         return SizedBox(
             width: width,
             height: height,
-            child: Slider(
+            child: 
+            
+            Slider(
               thumbColor: Colors.black,
               activeColor: Colors.black87,
               inactiveColor: Colors.white70,
