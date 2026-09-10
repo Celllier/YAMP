@@ -16,14 +16,13 @@ class SongListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ListView(
+    return ListView(
+        shrinkWrap: true,
         children: [
           for (Song song in list) 
             SongView(song: song),
         ],
-      ),
-    );
+      );
   }
 }
 

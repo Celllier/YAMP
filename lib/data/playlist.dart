@@ -8,22 +8,39 @@ class Playlist extends ChangeNotifier {
 
   Playlist({
     required this._name,
+    required this._songRepository,
     this._id
-  });
+  }) {
+    _loadPlaylistSongs();
+  }
 
-  final Queue<Song> _queue = Queue();
+  Queue<int> _queueIds = Queue();
   final String _name;
+  final SongRepository _songRepository;
   int? _id;
 
 
-  void add(Song song) {
-    _queue.add(song);
-    notifyListeners();
-  } 
+  //void add(Song song) {
+  //  _queue.add(song);
+  //  //_songRepository
+  //  notifyListeners();
+  //} 
+//
+  //void remove(Song song) {
+  //  _queue.remove(song);
+  //  //_songRepository
+  //  notifyListeners();
+  //}
 
-  void remove(Song song) {
-    _queue.remove(song);
+  Future<void> _loadPlaylistSongs() async {
+    _queueIds = await _songRepository.loadPlaylistSongs(playlistId: _id!);
     notifyListeners();
+  }
+
+  List<Song> getSongList(SongModel songModel) {
+    return songModel.availableSongs.where((song) =>
+      _queueIds.contains(song.id!)
+    ).toList();
   }
 
   String get name => _name;

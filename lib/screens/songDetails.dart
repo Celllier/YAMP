@@ -71,7 +71,7 @@ class SongPageView extends StatelessWidget {
 
 class PlayButton extends StatelessWidget {
 
-  PlayButton({required this.song});
+  const PlayButton({super.key, required this.song});
 
   final Song song;
 

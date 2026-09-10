@@ -1,4 +1,5 @@
-import 'package:path/path.dart';
+import 'dart:collection';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:yamp/data/playlist.dart';
 
@@ -9,6 +10,7 @@ class SongRepository {
 
   static const String songsTable = "songs";  
   static const String playlistTable = "playlists";
+  static const String playlistSongsTable = "playlist_songs";
 
   SongRepository({
     required this._database
@@ -106,6 +108,7 @@ class SongRepository {
       playlists.add(Playlist(
         name: entry['name'] as String,
         id: entry['id'] as int,
+        songRepository: this,
       ));
     }
 
@@ -122,7 +125,24 @@ class SongRepository {
       map
     );
 
-    return Playlist(name: name, id: id);
+    return Playlist(name: name, id: id, songRepository: this);
+  }
+
+  Future<Queue<int>> loadPlaylistSongs({required int playlistId}) async {
+    final List<Map<String, Object?>> map = await _database.query(
+      SongRepository.playlistSongsTable,
+      where: 'playlist_id = ?',
+      whereArgs: [playlistId],
+      orderBy: 'position',
+    );
+
+    Queue<int> queue = Queue();
+
+    for (final entry in map) {
+      queue.add(entry['song_id'] as int);
+    }
+
+    return queue;
   }
   
 }

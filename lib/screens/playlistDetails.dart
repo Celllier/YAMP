@@ -1,6 +1,9 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:yamp/data/song.dart';
+import 'package:yamp/screens/songList.dart';
 import '../data/playlist.dart';
 
 import 'common.dart';
@@ -31,12 +34,42 @@ class PlaylistDetailsView extends StatelessWidget {
 
   final Playlist _playlist;
 
+
+  void _addSongToPlaylist() {
+    int songId = 1;
+    //_playlist.add(song)
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         children: [
-          
+          Text.rich(
+            TextSpan(
+              text: 'Songs in ',
+              style: Theme.of(context).textTheme.titleLarge,
+              children: [
+                TextSpan(
+                  text: _playlist.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          Consumer<SongModel>(
+            builder: (context, songModel, child) => 
+              SongListView(list: _playlist.getSongList(songModel)),
+          ),
+  
+
+          FloatingActionButton(
+            onPressed: _addSongToPlaylist,
+            child: Icon(Icons.add),
+          )
         ] 
       )
     );
