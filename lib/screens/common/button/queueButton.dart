@@ -14,9 +14,9 @@ class QueueButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<SongPlayer>(
-      builder: (context, songPlayer, child) => ElevatedButton(
+      builder: (context, songPlayer, child) => IconButton(
         onPressed: () => songPlayer.addToQueue(song), 
-        child: Icon(Icons.queue)
+        icon: Icon(Icons.queue)
       ),
     );
   } 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../data/favorite.dart';
 import 'songDetails.dart';
 import 'common/button/favoriteIcon.dart';
+import 'common/button/queueButton.dart';
 
 import 'package:provider/provider.dart';
 
@@ -58,6 +59,7 @@ class SongView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 10,
           children: [
+            QueueButton(song: song),
             FavoriteIcon(song: song),
             Text(_formatDuration(song.durationSeconds)),
           ],
