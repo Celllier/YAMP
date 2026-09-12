@@ -9,7 +9,7 @@ import '../../data/song.dart';
 import '../../data/songPlayer.dart';
 import '../songDetails.dart';
 
-import 'package:liquid_glass_easy/liquid_glass_easy.dart';
+import 'glassWidget.dart';
 
 class MiniPlayerSheet extends StatelessWidget {
   const MiniPlayerSheet({super.key});
@@ -38,22 +38,12 @@ class MiniPlayerSheet extends StatelessWidget {
                 ),
               ),
             ),
-            LiquidGlassLens(
-                style: LiquidGlassStyle(
-                  shape: LiquidGlassShape.continuousRoundedRectangle(
-                    cornerRadius: 20,
-                    borderWidth: 1,
-                  ),
-                  appearance: LiquidGlassAppearance(
-                    color: const Color.fromARGB(136, 255, 255, 255),
-                    blur: const LiquidGlassBlur(
-                      sigmaX: 6,
-                      sigmaY: 6,
-                    ),
-                  ),
-                ),
-                child: MiniPlayerContents(songPlayer: songPlayer)
-              ),
+
+            GlassWidget(
+              blurSigma: 8,
+              cornerRadius: 20,
+              child: MiniPlayerContents(songPlayer: songPlayer),
+            ),
           ],
         );
       },
@@ -68,6 +58,7 @@ class MiniPlayerContents extends StatelessWidget {
 
   final SongPlayer _songPlayer;
 
+  //TODO: make this better
   @override
   Widget build(BuildContext context) {
     Song song = _songPlayer.playingSong!;
