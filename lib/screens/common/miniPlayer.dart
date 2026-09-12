@@ -78,6 +78,29 @@ class MiniPlayerContents extends StatelessWidget {
     );
   }
 
+  Widget _buildSongInformationWidget(BuildContext context, Song song) {
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 0,
+        children: [
+          Text(
+            song.title,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          Text(
+            song.artist,
+            style: Theme.of(context).textTheme.labelMedium ,
+          ),
+
+          Padding(padding: EdgeInsetsGeometry.directional(bottom: 8)),
+          SongSlider(song: song),
+        ],
+      ),
+    );
+  }
+
   //TODO: make this better
   @override
   Widget build(BuildContext context) {
@@ -96,24 +119,7 @@ class MiniPlayerContents extends StatelessWidget {
             child: song.imageWidget,
           ),
   
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  song.title,
-                  style: Theme.of(context).textTheme.labelLarge,
-                ),
-                Text(
-                  song.artist,
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-                
-                SongSlider(song: song),
-              ],
-            ),
-          ),
+          _buildSongInformationWidget(context, song),
     
           _buildInteractionButtons(song),
         ],
