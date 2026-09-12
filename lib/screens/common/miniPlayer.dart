@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:yamp/data/favorite.dart';
-import 'package:yamp/screens/common/common.dart';
 
 import '../../data/song.dart';
 import '../../data/songPlayer.dart';
 import '../songDetails.dart';
+
+import 'button/favoriteIcon.dart';
 
 import 'glassWidget.dart';
 import 'songSlider.dart';
@@ -67,12 +67,8 @@ class MiniPlayerContents extends StatelessWidget {
           song: song,
         ),
 
-        Consumer<FavoriteModel>(
-          builder: (context, favoriteModel, child) => 
-            FavoriteIcon(
-              song: song, 
-              favoriteModel: favoriteModel
-            )
+        FavoriteIcon(
+          song: song, 
         )
       ],
     );
@@ -101,7 +97,6 @@ class MiniPlayerContents extends StatelessWidget {
     );
   }
 
-  //TODO: make this better
   @override
   Widget build(BuildContext context) {
     Song song = _songPlayer.playingSong!;

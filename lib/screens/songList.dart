@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../data/favorite.dart';
 import 'songDetails.dart';
-import 'common/common.dart';
+import 'common/button/favoriteIcon.dart';
 
 import 'package:provider/provider.dart';
 
@@ -58,7 +58,7 @@ class SongView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           spacing: 10,
           children: [
-            FavoriteIcon(song: song, favoriteModel: favoriteModel),
+            FavoriteIcon(song: song),
             Text(_formatDuration(song.durationSeconds)),
           ],
         ) 

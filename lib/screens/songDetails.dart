@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 import 'common/common.dart';
 import 'common/miniPlayer.dart';
 import 'common/songSlider.dart';
+import 'common/button/favoriteIcon.dart';
+import 'common/button/queueButton.dart';
 import '../data/song.dart';
 
 import '../data/songPlayer.dart';
-import '../data/favorite.dart';
 
 
 class SongPage extends StatelessWidget {
@@ -48,20 +49,16 @@ class SongPageView extends StatelessWidget {
 
           Padding(padding: EdgeInsetsGeometry.directional(bottom: 20)),
 
-          //TODO: favorite model inside Icon
-          Consumer<FavoriteModel>(
-            builder: (context, favoriteModel, child) => 
-              Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 20,
-                  children: [
-                    QueueButton(song: song),
-                    PlayButton(song: song),
-                    FavoriteIcon(song: song, favoriteModel: favoriteModel)
-                  ],
-                ),
-              ),
+          Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 20,
+              children: [
+                QueueButton(song: song),
+                PlayButton(song: song),
+                FavoriteIcon(song: song)
+              ],
+            ),
           ),
           
           SongSlider(song: song),
