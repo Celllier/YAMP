@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'common/common.dart';
 import 'common/miniPlayer.dart';
+import 'common/songSlider.dart';
 import '../data/song.dart';
 
 import '../data/songPlayer.dart';
@@ -29,7 +30,7 @@ class SongPage extends StatelessWidget {
 
 class SongPageView extends StatelessWidget {
 
-  SongPageView({super.key, required this.song});
+  const SongPageView({super.key, required this.song});
 
   final Song song;
 
@@ -47,6 +48,7 @@ class SongPageView extends StatelessWidget {
 
           Padding(padding: EdgeInsetsGeometry.directional(bottom: 20)),
 
+          //TODO: favorite model inside Icon
           Consumer<FavoriteModel>(
             builder: (context, favoriteModel, child) => 
               Center(
@@ -127,49 +129,10 @@ class PlayButton extends StatelessWidget {
     return Consumer<SongPlayer>(
       builder: (context, songPlayer, child) =>  
           IconButton(
-            //heroTag: UniqueKey(),
             onPressed: () => _toggleSong(songPlayer),
-            //elevation: 0.0,
             icon: _getButtonIcon(songPlayer),
-            //child: _getButtonIcon(songPlayer),
           )
-      
       );
   }
 
 }
-
-
-
-class SongSlider extends StatelessWidget {
-
-  const SongSlider({super.key, required this.song, this.width, this.height});
-
-  final Song song;
-  final double? width;
-  final double? height;
-
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<SongPlayer>(
-      builder: (context, songPlayer, child) {
-        bool playingPageSong = songPlayer.isPlayingThis(song);
-        double max = playingPageSong ? songPlayer.duration : 1;
-        double value = playingPageSong ? songPlayer.position : 0;
-
-        return
-          
-            Slider(
-              thumbColor: Colors.black,
-              activeColor: Colors.black87,
-              inactiveColor: Colors.white70,
-              min: 0,
-              max: max,
-              value: value.clamp(0, max),
-              onChanged: songPlayer.seekSong
-            );
-      }  
-    );
-  }
-}
-

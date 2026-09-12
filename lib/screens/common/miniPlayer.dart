@@ -10,6 +10,7 @@ import '../../data/songPlayer.dart';
 import '../songDetails.dart';
 
 import 'glassWidget.dart';
+import 'songSlider.dart';
 
 class MiniPlayerSheet extends StatelessWidget {
   const MiniPlayerSheet({super.key});
@@ -32,7 +33,7 @@ class MiniPlayerSheet extends StatelessWidget {
                 child: ImageFiltered(
                   imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                   child: Transform.scale(
-                    scale: 1, // avoid edge artifacts from the blur
+                    scale: 1, 
                     child: song.imageWidget,
                   ),
                 ),
@@ -58,6 +59,25 @@ class MiniPlayerContents extends StatelessWidget {
 
   final SongPlayer _songPlayer;
 
+  Widget _buildInteractionButtons(Song song) {
+    return Row(
+      mainAxisSize: MainAxisSize.min, 
+      children: [
+        PlayButton(
+          song: song,
+        ),
+
+        Consumer<FavoriteModel>(
+          builder: (context, favoriteModel, child) => 
+            FavoriteIcon(
+              song: song, 
+              favoriteModel: favoriteModel
+            )
+        )
+      ],
+    );
+  }
+
   //TODO: make this better
   @override
   Widget build(BuildContext context) {
@@ -67,14 +87,14 @@ class MiniPlayerContents extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        spacing: 20,
         children: [
+
           SizedBox(
             height: 60,
             width: 60,
             child: song.imageWidget,
           ),
-  
-          const SizedBox(width: 10),
   
           Expanded(
             child: Column(
@@ -89,27 +109,13 @@ class MiniPlayerContents extends StatelessWidget {
                   song.artist,
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
-                SongSlider(
-                  song: song,
-                ),
+                
+                SongSlider(song: song),
               ],
             ),
           ),
-  
-          const SizedBox(width: 10),
-  
-          PlayButton(
-            song: song,
-          ),
-
-          Consumer<FavoriteModel>(
-            builder: (context, favoriteModel, child) => 
-              FavoriteIcon(
-                song: song, 
-                favoriteModel: favoriteModel
-              )
-          ),
-
+    
+          _buildInteractionButtons(song),
         ],
       ),
     );
