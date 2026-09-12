@@ -2,7 +2,7 @@ import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/navigation.dart';
+import 'screens/home.dart';
 
 import 'data/favorite.dart';
 import 'data/songPlayer.dart';

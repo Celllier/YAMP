@@ -11,7 +11,6 @@ import 'playlist.dart';
 import 'common/glassWidget.dart';
 
 
-//TODO: change name
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -70,8 +69,8 @@ class _HomePageState extends State<HomePage> {
           onPageChanged: _onPageChanged,
           children: [
             AvailableSongsView(),
-            PlaylistListingPage(songModel: songModel),
-            SongListView(list: songPlayer.songQueueList),
+            PlaylistListingPage(),
+            QueuedSongsView(),
             FavoritesView(),
           ],
         ),
@@ -123,3 +122,15 @@ class AvailableSongsView extends StatelessWidget {
   }
 }
 
+class QueuedSongsView extends StatelessWidget {
+
+  const QueuedSongsView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<SongPlayer>(
+      builder: (context, songPlayer, child) =>
+        SongListView(list: songPlayer.songQueueList)
+    );
+  }
+}

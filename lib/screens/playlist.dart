@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-import '../data/song.dart';
 import '../data/playlist.dart';
 import 'playlistDetails.dart';
 
 class PlaylistListingPage extends StatelessWidget {
 
-  const PlaylistListingPage({super.key, required this.songModel});
-
-  final SongModel songModel;
+  const PlaylistListingPage({super.key});
 
   void _showPlaylistCreateModal(BuildContext context) {
     showModalBottomSheet(
