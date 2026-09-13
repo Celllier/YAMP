@@ -1,15 +1,16 @@
+import 'dart:ui';
+
 import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'screens/home.dart';
 
 import 'data/favorite.dart';
 import 'data/songPlayer.dart';
 import 'data/songRepository.dart';
 import 'data/playlist.dart';
-
+import 'screens/adaptiveLayout.dart';
 import 'data/databaseBuilder.dart';
+
 
 DatabaseBuilder databaseBuilder = DatabaseBuilder();
 
@@ -38,8 +39,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage()
+    return MaterialApp(
+      home: AdaptiveLayout()
     );
   }
 }
