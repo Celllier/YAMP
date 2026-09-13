@@ -28,10 +28,10 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
   int selectedIndex = 0;
 
   final pages =  [
-    {'page': AvailableSongsView(), 'icon': Icon(Icons.music_note), 'text': 'Songs'},
+    {'page': AvailableSongsView(),  'icon': Icon(Icons.music_note),    'text': 'Songs'},
     {'page': PlaylistListingPage(), 'icon': Icon(Icons.playlist_play), 'text': 'Playlists'},
-    {'page': QueuedSongsView(), 'icon': Icon(Icons.queue_music), 'text': 'Queue'},
-    {'page': FavoritesView(), 'icon': Icon(Icons.favorite), 'text': 'Favorites'},
+    {'page': QueuedSongsView(),     'icon': Icon(Icons.queue_music),   'text': 'Queue'},
+    {'page': FavoritesView(),       'icon': Icon(Icons.favorite),      'text': 'Favorites'},
   ];
 
   void _onDestinationSelected(int index) {
@@ -51,7 +51,6 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
     setState(() {
       selectedIndex = index;
     });
-
   }
 
 
@@ -62,7 +61,7 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
           child: NavigationBar(
             backgroundColor: Colors.transparent,
             surfaceTintColor: Colors.transparent,
-            indicatorColor: const Color.fromARGB(78, 158, 158, 158),
+            indicatorColor: _AdaptiveLayoutState.indicatorColor,
             selectedIndex: selectedIndex,
             onDestinationSelected: _onDestinationSelected,
             destinations: [
@@ -77,15 +76,23 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
   }
 
   Widget _buildNavigationRail() {
-    return NavigationRail(
-      selectedIndex: selectedIndex,
-      onDestinationSelected: _onDestinationSelected,
-      destinations: [
-        for (final pageEntry in pages)
-          NavigationRailDestination(
-            icon: pageEntry['icon'] as Icon,
-            label: Text(pageEntry['text'] as String)
-          )
+    return Row(
+      children: [
+        NavigationRail(
+          selectedIndex: selectedIndex,
+          onDestinationSelected: _onDestinationSelected,
+          indicatorColor: _AdaptiveLayoutState.indicatorColor,
+          labelType: NavigationRailLabelType.all,
+          destinations: [
+            for (final pageEntry in pages)
+              NavigationRailDestination(
+                icon: pageEntry['icon'] as Icon,
+                label: Text(pageEntry['text'] as String)
+              )
+          ],
+        ),
+
+        const VerticalDivider(thickness: 1, width: 1),
       ],
     );
   }
@@ -131,6 +138,8 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
       }
     );
   }
+
+  static Color get indicatorColor => Color.fromARGB(78, 158, 158, 158);
 
 }
 
