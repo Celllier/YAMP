@@ -1,5 +1,6 @@
 import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
+import 'package:yamp/data/songPlayer.dart';
 
 import '../data/favorite.dart';
 import 'songDetails.dart';
@@ -70,12 +71,7 @@ class SongView extends StatelessWidget {
       leading: _buildLeading(),
       title: Text(song.title),
       subtitle: Text(song.artist),
-      onTap: () => Navigator.push(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => SongPage(song: song),
-          )
-        )
+      onTap: () => context.read<SongPlayer>().playSong(song)
     );
   }
 

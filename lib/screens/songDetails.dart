@@ -22,7 +22,6 @@ class SongPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(title: song.title, automaticallyImplyLeading: true),
-      bottomSheet: MiniPlayerSheet(),
       body: SongPageView(song: song)
     );
   }
