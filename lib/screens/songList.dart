@@ -7,6 +7,7 @@ import 'common/button/favoriteIcon.dart';
 import 'common/button/queueButton.dart';
 
 import 'package:provider/provider.dart';
+import '../util/utils.dart';
 
 class SongListView extends StatelessWidget {
 
@@ -34,13 +35,7 @@ class SongView extends StatelessWidget {
 
   final Song song;
 
-  String _formatDuration(int seconds) {
-    String min = "${(song.durationSeconds / 60).floor()}";
-    int isec = song.durationSeconds % 60;
-    String sec = isec < 10 ? "0$isec" : "$isec";
 
-    return "$min:$sec";
-  }
 
 
   Widget _buildLeading() {
@@ -61,7 +56,7 @@ class SongView extends StatelessWidget {
           children: [
             QueueButton(song: song),
             FavoriteIcon(song: song),
-            Text(_formatDuration(song.durationSeconds)),
+            Text(Utils.formatDuration(song.durationSeconds)),
           ],
         ) 
     );

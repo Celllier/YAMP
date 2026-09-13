@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yamp/util/utils.dart';
 
 import '../../data/song.dart';
 import '../../data/songPlayer.dart';
@@ -29,16 +30,36 @@ class SongSlider extends StatelessWidget {
             thumbShape: CustomSliderThumbShape(),
             overlayShape: CustomSliderOverlayShape(),
           ),
-          child:  Slider(
-            thumbColor: Colors.black,
-            activeColor: Colors.black87,
-            inactiveColor: Colors.white70,
-            padding: EdgeInsets.all(0),
-            min: 0,
-            max: max,
-            value: value.clamp(0, max),
-            onChanged: songPlayer.seekSong
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            spacing: 12,
+            children: [
+              Text(
+                Utils.formatDuration((songPlayer.position/1000).round()),
+                style: TextTheme.of(context).labelLarge,
+              ),
+
+              Expanded(
+                child: Slider(
+                  thumbColor: Colors.black,
+                  activeColor: Colors.black87,
+                  inactiveColor: Colors.white70,
+                  padding: EdgeInsets.all(0),
+                  min: 0,
+                  max: max,
+                  value: value.clamp(0, max),
+                  onChanged: songPlayer.seekSong
+                ),
+              ),
+
+              Text(
+                Utils.formatDuration(song.durationSeconds),
+                style: TextTheme.of(context).labelLarge,
+              ),
+            ]
           )
+          
+          
         );
       }  
     );
