@@ -115,8 +115,21 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
       children: [
         if (isLargeScreen) 
           _buildNavigationRail(),
+
         Expanded(
-          child: _buildPageView()
+          child: Stack(
+            alignment: AlignmentGeometry.bottomCenter,
+            children: [
+              _buildPageView(),
+              Padding(
+                padding: EdgeInsetsGeometry.only(bottom: 30),
+                child: SizedBox(
+                  width: 700,
+                  child: MiniPlayerSheet(),
+                )  
+              )
+            ],
+          )
         )
       ],
     );
@@ -131,7 +144,7 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 
         return Scaffold(
           appBar: MyAppBar(),
-          bottomSheet: MiniPlayerSheet(),
+          //bottomSheet: Container(padding: EdgeInsets.only(bottom: 30), child: MiniPlayerSheet(), color: Colors.red) ,
           bottomNavigationBar: _buildNavigationBar(isLargeScreen),
           body: _buildContent(isLargeScreen)
         );
