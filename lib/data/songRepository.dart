@@ -48,8 +48,7 @@ class SongRepository {
       limit: limit,
     );
 
-    print(songMaps);
-
+    //print(songMaps);
 
     List<Song> songs = [];
     for (final entry in songMaps) {
@@ -60,6 +59,15 @@ class SongRepository {
     }
 
     return songs;
+  }
+
+
+  Future<void> updateSong(Song song) async {
+    await _database.insert(
+      SongRepository.songsTable, 
+      song.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace
+    );
   }
 
 

@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+
 import 'song.dart';
+import 'metadata.dart';
 import 'package:audio_metadata_reader/audio_metadata_reader.dart';
 
 class SongFileReader {
@@ -47,8 +50,18 @@ class SongFileReader {
       : Song.defaultAlbumArt;
   }
 
-    //  SongImage songImage = metadata.pictures.isNotEmpty 
-  //    ? SongByteImage(bytes:metadata.pictures[0].bytes) 
-  //    : Song.defaultAlbumArt;
-//
+  static void updateSongMetadata(Song song, Metadata newMetadata) {
+    song.updateMetadata(newMetadata);
+
+    final file = File(song.sourcePath);
+    updateMetadata(
+      file, 
+      ((metadata) {
+        metadata.setTitle(song.title);
+        metadata.setArtist(song.artist);
+      })
+    );
+  }
+
+
 }

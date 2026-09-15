@@ -7,6 +7,7 @@ import 'common/miniPlayer.dart';
 import 'common/songSlider.dart';
 import 'common/button/favoriteIcon.dart';
 import 'common/button/queueButton.dart';
+import 'common/button/editButton.dart';
 import '../data/song.dart';
 
 import '../data/songPlayer.dart';
@@ -55,7 +56,8 @@ class SongPageView extends StatelessWidget {
               children: [
                 QueueButton(song: song),
                 PlayButton(song: song),
-                FavoriteIcon(song: song)
+                FavoriteIcon(song: song),
+                EditButton(song: song),
               ],
             ),
           ),
@@ -68,6 +70,7 @@ class SongPageView extends StatelessWidget {
 }
 
 
+// put in another file
 class PlayButton extends StatelessWidget {
 
   const PlayButton({super.key, required this.song});

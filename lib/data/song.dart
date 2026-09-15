@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:yamp/data/metadata.dart';
 import 'package:yamp/data/songRepository.dart';
 
 class Song {
@@ -49,6 +50,16 @@ class Song {
   void setImage(SongImage songImage) {
     _albumArt = songImage;
   }
+
+  void updateMetadata(Metadata metadata) {
+    if (Metadata.isNonEmpty(metadata.title)) {
+      _title = metadata.title!;
+    }  
+
+    if (Metadata.isNonEmpty(metadata.artist)) {
+      _artist = metadata.artist!;
+    }  
+  }
  
   @override
   bool operator ==(Object other) {
@@ -57,12 +68,15 @@ class Song {
 
   @override
   String toString() {
-    return "${_title} - isFavorited: ${isFavorited}";
+    return """
+      - title: $_title \n
+      - artist: $_artist \n
+    """;
   }
 
   int? _id;
-  final String _artist;
-  final String _title;
+  String _artist;
+  String _title;
   final int _durationSeconds;
   SongImage _albumArt;
   final String _sourcePath;
@@ -92,6 +106,11 @@ class SongModel extends ChangeNotifier {
 
   Future<void> _loadSongs() async {
     _loadedSongs = await _songRepository.loadSongs();
+    notifyListeners();
+  }
+
+  Future<void> saveSong(Song song) async {
+    await _songRepository.updateSong(song);
     notifyListeners();
   }
 
