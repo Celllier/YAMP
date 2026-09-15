@@ -71,50 +71,60 @@ class _EditFormState extends State<_EditForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 10,
-          children: [
-            TextFormField(
-              controller: titleController,
-              validator: _nonNullValidator,
-              decoration: InputDecoration(
-                hintText: "Title"
-              ),
-            ),
-
-            TextFormField(
-              controller: artistController,
-              validator: _nonNullValidator,
-              decoration: InputDecoration(
-                hintText: "Artist"
-              ),
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 200),
+          child: Padding(
+            padding: EdgeInsetsGeometry.directional(start: 28, end: 28, top: 28, bottom: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 10,
               children: [
-                IconButton(
-                  icon: Icon(Icons.cancel),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                TextFormField(
+                  controller: titleController,
+                  validator: _nonNullValidator,
+                  decoration: InputDecoration(
+                    hintText: "Title",
+                    helperText: "Title",
+                    border: OutlineInputBorder()
+                  ),
                 ),
-
-                IconButton(
-                  icon: Icon(Icons.check),
-                  onPressed: () {
-                    Metadata metadata = Metadata(
-                      title: titleController.text,
-                      artist: artistController.text,
-                    );
-                    Navigator.pop(context, metadata);
-                  } 
+            
+                TextFormField(
+                  controller: artistController,
+                  validator: _nonNullValidator,
+                  decoration: InputDecoration(
+                    hintText: "Artist",
+                    helperText: "Artist",
+                    border: OutlineInputBorder()
+                  ),
                 ),
-                
+            
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.cancel),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+            
+                    IconButton(
+                      icon: Icon(Icons.check),
+                      onPressed: () {
+                        Metadata metadata = Metadata(
+                          title: titleController.text,
+                          artist: artistController.text,
+                        );
+                        Navigator.pop(context, metadata);
+                      } 
+                    ),
+                    
+                  ],
+                )
               ],
-            )
-          ],
+            ),
+          ),
         )
     );
   }
