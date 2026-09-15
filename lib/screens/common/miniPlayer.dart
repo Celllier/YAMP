@@ -7,6 +7,8 @@ import '../../data/song.dart';
 import '../../data/songPlayer.dart';
 import '../songDetails.dart';
 
+import 'button/playButton.dart';
+
 import 'button/favoriteIcon.dart';
 
 import 'glassWidget.dart';
