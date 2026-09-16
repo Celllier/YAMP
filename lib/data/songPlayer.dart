@@ -52,12 +52,13 @@ class SongPlayer extends ChangeNotifier {
     notifyListeners();
   }
 
-  void queueNextSong() {
+  Song? queueNextSong() {
      if (songQueue.isNotEmpty) {
-      playSong(songQueue.removeFirst());
-    } else {
-      print("No songs to queue");
-    }
+      Song next = songQueue.removeFirst();
+      playSong(next);
+      return next;
+    } 
+    return null;
   }
 
 
@@ -96,6 +97,8 @@ class SongPlayer extends ChangeNotifier {
   List<Song> get songQueueList => _songQueue.toList();
   SongMetaData? get songMetaData => _playingSong?.metaData;
   AudioPlayer get audioPlayer => _audioPlayer;
+
+  bool get canQueueNext => _songQueue.isNotEmpty;
 
   double get duration => _playingSong?.metaData.durationInMilli ?? 0;
   double get position => _playingSong?.metaData.positionInMilli ?? 0;

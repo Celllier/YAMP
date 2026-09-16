@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamp/screens/common/button/queueNext.dart';
 
 
 import 'common/common.dart';
@@ -59,6 +60,7 @@ class SongPageView extends StatelessWidget {
                 children: [
                   QueueButton(song: song),
                   PlayButton(song: song),
+                  QueueNext(),
                   FavoriteIcon(song: song),
                   EditButton(song: song),
                 ],
