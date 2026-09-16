@@ -2,20 +2,18 @@ import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
 import 'package:yamp/data/songPlayer.dart';
 
-import '../data/favorite.dart';
-import 'songDetails.dart';
 import 'common/button/favoriteIcon.dart';
 import 'common/button/queueButton.dart';
 
 import 'package:provider/provider.dart';
 import '../util/utils.dart';
 
-class SongListView extends StatelessWidget {
+abstract class SongListView extends StatelessWidget {
 
   const SongListView({super.key, required this.list});
 
   final List<Song> list;
-  
+  List<Widget> getInteractionButtons(Song song);
 
   @override
   Widget build(BuildContext context) {
@@ -23,20 +21,35 @@ class SongListView extends StatelessWidget {
         shrinkWrap: true,
         children: [
           for (Song song in list) 
-            SongView(song: song),
+            SongView(
+              song: song, 
+              interactionButtons: getInteractionButtons(song)
+            ),
         ],
       );
   }
 }
 
+class DefaultSongListView extends SongListView {
+  const DefaultSongListView({super.key, required super.list});
+
+  @override
+  List<Widget> getInteractionButtons(Song song) {
+    return [
+      QueueButton(song: song),
+      FavoriteIcon(song: song),
+    ];
+  }
+  
+}
+
 
 
 class SongView extends StatelessWidget {
-  const SongView({super.key, required this.song});
+  const SongView({super.key, required this.song, required this.interactionButtons});
 
   final Song song;
-
-
+  final List<Widget> interactionButtons;
 
 
   Widget _buildLeading() {
@@ -49,17 +62,14 @@ class SongView extends StatelessWidget {
 
 
   Widget _buildTrailing() {
-    return Consumer<FavoriteModel>(
-      builder: (context, favoriteModel, child) => 
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: 10,
-          children: [
-            QueueButton(song: song),
-            FavoriteIcon(song: song),
-            Text(Utils.formatDuration(song.durationSeconds)),
-          ],
-        ) 
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 10,
+      children: [
+        for (final button in interactionButtons) 
+          button,
+        Text(Utils.formatDuration(song.durationSeconds)),
+      ],
     );
   }
 

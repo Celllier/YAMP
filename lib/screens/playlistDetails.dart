@@ -62,7 +62,7 @@ class PlaylistDetailsView extends StatelessWidget {
 
           Consumer<SongModel>(
             builder: (context, songModel, child) => 
-              SongListView(list: _playlist.getSongList(songModel)),
+              DefaultSongListView(list: _playlist.getSongList(songModel)),
           ),
 
           FloatingActionButton(
