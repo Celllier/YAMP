@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:yamp/data/metadata.dart';
 import 'package:yamp/data/songRepository.dart';
 
-class Song {
+class Song extends ChangeNotifier {
 
   static const String unknown = "Unknown";
   static const SongPathImage defaultAlbumArt = SongPathImage(path: "assets/albums/arvores.jpg");
@@ -59,6 +59,8 @@ class Song {
     if (Metadata.isNonEmpty(metadata.artist)) {
       _artist = metadata.artist!;
     }  
+
+    notifyListeners();
   }
  
   @override

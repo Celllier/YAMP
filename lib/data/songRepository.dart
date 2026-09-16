@@ -48,8 +48,6 @@ class SongRepository {
       limit: limit,
     );
 
-    //print(songMaps);
-
     List<Song> songs = [];
     for (final entry in songMaps) {
       Song song = Song.fromEntry(entry);
@@ -158,5 +156,33 @@ class SongRepository {
 
     return queue;
   }
+
+  Future<void> addSongToPlaylist(int playlistId, int songId, int position) async {
+    final Map<String, Object?> value = {
+      'playlist_id': playlistId,
+      'song_id': songId,
+      'position': position,
+    };
+
+    await _database.insert(
+      SongRepository.playlistSongsTable, 
+      value,
+    );
+  }
   
 }
+
+
+          //playlist_id INTEGER NOT NULL,
+          //song_id INTEGER NOT NULL,
+          //position INTEGER NOT NULL,
+//
+          //PRIMARY KEY (playlist_id, song_id),
+//
+          //FOREIGN KEY (playlist_id)
+          //    REFERENCES playlists(id)
+          //    ON DELETE CASCADE,
+//
+          //FOREIGN KEY (song_id)
+          //    REFERENCES songs(id)
+          //    ON DELETE CASCADE

@@ -20,11 +20,11 @@ class Playlist extends ChangeNotifier {
   int? _id;
 
 
-  //void add(Song song) {
-  //  _queue.add(song);
-  //  //_songRepository
-  //  notifyListeners();
-  //} 
+  void addSong(Song song) {
+    _queueIds.add(song.id!);
+    _songRepository.addSongToPlaylist(id, song.id!, nextQueuePosition);
+    notifyListeners();
+  } 
 //
   //void remove(Song song) {
   //  _queue.remove(song);
@@ -44,6 +44,8 @@ class Playlist extends ChangeNotifier {
   }
 
   String get name => _name;
+  int get id => _id!;
+  int get nextQueuePosition => _queueIds.length + 1;
 }
 
 

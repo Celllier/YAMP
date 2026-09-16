@@ -17,19 +17,18 @@ class SongOpotionsDialog extends StatelessWidget {
   void _showSongOptionsDialog(BuildContext context) async {
     List<Song> songs = context.read<SongModel>().availableSongs;
 
-    Song? song = await showDialog<Song>(
+    showDialog<Song>(
       context: context, 
       builder: (context) => Dialog(
         child: Container(
           constraints: BoxConstraints(maxWidth: 400),
-          child: AddToPlaylistSongListView(list: songs, playlist: playlist)
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: AddToPlaylistSongListView(list: songs, playlist: playlist),
+          )
         )
       )
     ); 
-
-    if (song != null) {
-
-    } 
   }
 
   @override
@@ -50,7 +49,7 @@ class AddToPlaylistButton extends StatelessWidget {
   const AddToPlaylistButton({super.key, required this.playlist, required this.song});
 
   void _addSongToPlaylist() {
-    
+    playlist.addSong(song);
   }
 
   @override

@@ -18,11 +18,14 @@ class SongPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MyAppBar(title: song.title, automaticallyImplyLeading: true),
-      body: SongPageView(song: song)
-    );
-  }
+    return ListenableBuilder(
+      listenable: song, 
+      builder: (context, child) => Scaffold(
+        appBar: MyAppBar(title: song.title, automaticallyImplyLeading: true),
+        body: SongPageView(song: song)
+    )
+  );
+  } 
 }
 
 
@@ -34,33 +37,37 @@ class SongPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          SizedBox(
-            height: 300,
-            child: song.imageWidget,
-          ),
-          Text(song.title, style: TextTheme.of(context).headlineSmall),
-          Text(song.artist, style: TextTheme.of(context).labelMedium),
-
-          Padding(padding: EdgeInsetsGeometry.directional(bottom: 20)),
-
-          Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 20,
-              children: [
-                QueueButton(song: song),
-                PlayButton(song: song),
-                FavoriteIcon(song: song),
-                EditButton(song: song),
-              ],
+    return ListenableBuilder(
+      listenable: song,
+      builder: (_, _) => 
+        Center(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 300,
+              child: song.imageWidget,
             ),
-          ),
-          
-          SongSlider(song: song),
-        ],
+            Text(song.title, style: TextTheme.of(context).headlineSmall),
+            Text(song.artist, style: TextTheme.of(context).labelMedium),
+      
+            Padding(padding: EdgeInsetsGeometry.directional(bottom: 20)),
+      
+            Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                spacing: 20,
+                children: [
+                  QueueButton(song: song),
+                  PlayButton(song: song),
+                  FavoriteIcon(song: song),
+                  EditButton(song: song),
+                ],
+              ),
+            ),
+            
+            SongSlider(song: song),
+          ],
+        ),
       ),
     );
   }
