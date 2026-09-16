@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:yamp/data/songPlayer.dart';
 import 'package:yamp/data/songRepository.dart';
 
 import 'song.dart';
@@ -32,9 +33,17 @@ class Playlist extends ChangeNotifier {
   //  notifyListeners();
   //}
 
+  void play(SongModel songModel, SongPlayer songPlayer){
+    songPlayer.playQueue(getSongs(songModel));
+  }
+
   Future<void> _loadPlaylistSongs() async {
     _queueIds = await _songRepository.loadPlaylistSongs(playlistId: _id!);
     notifyListeners();
+  }
+
+  Queue<Song> getSongs(SongModel songModel) {
+    return Queue.from(getSongList(songModel));
   }
 
   List<Song> getSongList(SongModel songModel) {

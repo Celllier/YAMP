@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yamp/data/song.dart';
 import 'package:yamp/screens/common/button/addToPlaylist.dart';
+import 'package:yamp/screens/common/button/playQueue.dart';
 import 'package:yamp/screens/songList.dart';
 import '../data/playlist.dart';
 
@@ -48,6 +49,7 @@ class PlaylistDetailsView extends StatelessWidget {
       builder: (_, _) {
         return Center(
           child: Column(
+            spacing: 10,
             children: [
               Text.rich(
                 TextSpan(
@@ -62,6 +64,13 @@ class PlaylistDetailsView extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  PlayQueue(playlist: _playlist)
+                ],
               ),
         
               Consumer<SongModel>(
