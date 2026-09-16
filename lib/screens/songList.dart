@@ -1,6 +1,8 @@
+import 'package:yamp/data/playlist.dart';
 import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
 import 'package:yamp/data/songPlayer.dart';
+import 'package:yamp/screens/common/button/addToPlaylist.dart';
 
 import 'common/button/favoriteIcon.dart';
 import 'common/button/queueButton.dart';
@@ -40,7 +42,19 @@ class DefaultSongListView extends SongListView {
       FavoriteIcon(song: song),
     ];
   }
-  
+}
+
+class AddToPlaylistSongListView extends SongListView {
+
+  final Playlist playlist;
+  const AddToPlaylistSongListView({super.key, required super.list, required this.playlist});
+
+  @override
+  List<Widget> getInteractionButtons(Song song) {
+    return [
+      AddToPlaylistButton(playlist: playlist, song: song)
+    ];
+  }
 }
 
 

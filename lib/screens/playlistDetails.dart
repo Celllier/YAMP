@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yamp/data/song.dart';
+import 'package:yamp/screens/common/button/addToPlaylist.dart';
 import 'package:yamp/screens/songList.dart';
 import '../data/playlist.dart';
 
@@ -42,35 +43,37 @@ class PlaylistDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Text.rich(
-            TextSpan(
-              text: 'Songs in ',
-              style: Theme.of(context).textTheme.titleLarge,
-              children: [
+    return ListenableBuilder(
+      listenable: _playlist,
+      builder: (_, _) {
+        return Center(
+          child: Column(
+            children: [
+              Text.rich(
                 TextSpan(
-                  text: _playlist.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  ),
+                  text: 'Songs in ',
+                  style: Theme.of(context).textTheme.titleLarge,
+                  children: [
+                    TextSpan(
+                      text: _playlist.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-
-          Consumer<SongModel>(
-            builder: (context, songModel, child) => 
-              DefaultSongListView(list: _playlist.getSongList(songModel)),
-          ),
-
-          FloatingActionButton(
-            onPressed: _addSongToPlaylist,
-            child: Icon(Icons.add),
+              ),
+        
+              Consumer<SongModel>(
+                builder: (_, songModel, _) => 
+                  DefaultSongListView(list: _playlist.getSongList(songModel)),
+              ),
+        
+              SongOpotionsDialog(playlist: _playlist)
+            ] 
           )
-        ] 
-      )
+        );
+      }
     );
   }
 }
