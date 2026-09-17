@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:yamp/util/utils.dart';
 
 import '../data/playlist.dart';
 import 'playlistDetails.dart';
@@ -48,21 +48,45 @@ class PlaylistListingPage extends StatelessWidget {
     );
   }
 
-
-
-  //make this prettier
+  //wrap in listenable builder
   Widget _buildPlayListTile(BuildContext context, Playlist playlist) {
-    return ListTile(
-      leading: Text(playlist.name),
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>
-          PlaylistDetailsPage(playlist: playlist))
-      )
+    return Material(
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>
+            PlaylistDetailsPage(playlist: playlist))
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: ListenableBuilder(
+            listenable: playlist,
+            builder: (_, _) =>
+              _buildPlayListTileContent(context, playlist)
+          ),
+        )
+      ),
+    );
+  }
+
+  Widget _buildPlayListTileContent(BuildContext context, Playlist playlist) {
+    return Row(
+      spacing: 6,
+      children: [
+        Utils.buildLeadingPlaylistArt(context, playlist),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 4,
+          children: [
+            Text(playlist.name, style: TextTheme.of(context).titleMedium),
+            Text("${playlist.length} songs", style: TextTheme.of(context).labelMedium),
+          ],
+        )
+      ],
     );
   }
 }
-
 
 
 

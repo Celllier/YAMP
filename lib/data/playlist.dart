@@ -52,9 +52,19 @@ class Playlist extends ChangeNotifier {
     ).toList();
   }
 
+  // make this better
+  Song getFirstSong(SongModel songModel) {
+    return getSongList(songModel).first;
+  }
+
+  List<Song> getFirstFourSongs(SongModel songModel) {
+    return getSongList(songModel).getRange(0, 4).toList();
+  }
+
   String get name => _name;
   int get id => _id!;
   int get nextQueuePosition => _queueIds.length + 1;
+  int get length => _queueIds.length;
 }
 
 
