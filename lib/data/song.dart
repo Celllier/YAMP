@@ -91,7 +91,7 @@ class Song extends ChangeNotifier {
   String get sourcePath => _sourcePath;
   bool get isFavorited => _favorited;
 
-  Widget get imageWidget => _albumArt.displayImage();
+  SongImage get albumArt => _albumArt;
   
 }
 
@@ -127,10 +127,12 @@ abstract class SongImage {
 
   const SongImage();
 
-  Widget displayImage() {
-    return AspectRatio(
-      aspectRatio: 1/1,
-      child: createImage(),
+  Widget displayImage({double size = 60}) {
+    return SizedBox.square(
+      dimension: size,
+      child: ClipRRect(
+        child: createImage(),
+      ),
     );
   }
 
@@ -148,7 +150,7 @@ class SongPathImage extends SongImage {
   Widget createImage() {
     return Image(
       image: AssetImage(path),
-      fit: BoxFit.fitWidth
+      fit: BoxFit.cover
     );
   }
 }
@@ -164,9 +166,7 @@ class SongByteImage extends SongImage {
   Widget createImage() {
     return Image.memory(
       bytes,
-      fit: BoxFit.fitWidth
+      fit: BoxFit.cover
     );
   }
-
-
 }

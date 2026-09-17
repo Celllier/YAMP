@@ -63,7 +63,7 @@ class _MiniPlayerWidget extends StatelessWidget {
               imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
               child: Transform.scale(
                 scale: 1, 
-                child: song.imageWidget,
+                child: song.albumArt.displayImage(),
               ),
             ),
           ),
@@ -138,7 +138,7 @@ class _MiniPlayerContents extends StatelessWidget {
           SizedBox(
             height: 60,
             width: 60,
-            child: song.imageWidget,
+            child: song.albumArt.displayImage(),
           ),
   
           _buildSongInformationWidget(context, song),

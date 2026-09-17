@@ -19,15 +19,17 @@ abstract class SongListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return ListView.builder(
         shrinkWrap: true,
-        children: [
-          for (Song song in list) 
-            SongView(
-              song: song, 
-              interactionButtons: getInteractionButtons(song)
+        itemCount: list.length,
+        itemBuilder: (context, index) => 
+          Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: SongView(
+              song: list[index], 
+              interactionButtons: getInteractionButtons(list[index])
             ),
-        ],
+          )
       );
   }
 }
@@ -65,37 +67,68 @@ class SongView extends StatelessWidget {
   final Song song;
   final List<Widget> interactionButtons;
 
+  Widget _myBuild(BuildContext context) {
+    return Row(
+      spacing: 6,
+      children: [
+        _buildLeading(),
+        _buildCenter(context),
+        _buildTrailing(context),
+      ],
+    );
+  }
 
-  Widget _buildLeading() {
-    return Container(
-      width: 100,
-      height: 100,
-      child: song.imageWidget
+  Widget _buildCenter(BuildContext context) {
+    return Expanded(child: 
+      Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(song.title, style: TextTheme.of(context).titleMedium),
+          Text(song.artist, style: TextTheme.of(context).labelMedium),
+          Text("Music", style: TextTheme.of(context).labelMedium)
+          ]
+        ),
     );
   }
 
 
-  Widget _buildTrailing() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      spacing: 10,
-      children: [
-        for (final button in interactionButtons) 
-          button,
-        Text(Utils.formatDuration(song.durationSeconds)),
-      ],
+  Widget _buildLeading() {
+    return song.albumArt.displayImage();
+  }
+
+
+  Widget _buildTrailing(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        spacing: 10,
+        children: [
+          for (final button in interactionButtons) 
+            button,
+          Text(
+            Utils.formatDuration(song.durationSeconds),
+            style: TextTheme.of(context).labelLarge,
+            ),
+        ],
+      ),
     );
   }
 
 
   @override  
   Widget build(BuildContext context) {
-    return ListTile(
-      trailing: _buildTrailing(),
-      leading: _buildLeading(),
-      title: Text(song.title),
-      subtitle: Text(song.artist),
-      onTap: () => context.read<SongPlayer>().playSong(song)
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: () => context.read<SongPlayer>().playSong(song),
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.all(4),
+          child: _myBuild(context),
+        ),
+      ),
     );
   }
 

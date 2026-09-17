@@ -44,10 +44,9 @@ class SongPageView extends StatelessWidget {
         Center(
         child: Column(
           children: [
-            SizedBox(
-              height: 300,
-              child: song.imageWidget,
-            ),
+            
+            song.albumArt.displayImage(size: 300),
+            
             Text(song.title, style: TextTheme.of(context).headlineSmall),
             Text(song.artist, style: TextTheme.of(context).labelMedium),
       
