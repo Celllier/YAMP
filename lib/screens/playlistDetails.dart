@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:yamp/data/song.dart';
 import 'package:yamp/screens/common/button/addToPlaylist.dart';
 import 'package:yamp/screens/common/button/playQueue.dart';
+import 'package:yamp/screens/common/orderableSongList.dart';
 import 'package:yamp/screens/songList.dart';
 import '../data/playlist.dart';
 
@@ -75,7 +76,7 @@ class PlaylistDetailsView extends StatelessWidget {
         
               Consumer<SongModel>(
                 builder: (_, songModel, _) => 
-                  DefaultSongListView(list: _playlist.getSongList(songModel)),
+                  Expanded(child: DefaultSongListView(songList: OrderableSongList(songs: _playlist.getSongList(songModel)))),
               ),
         
               SongOpotionsDialog(playlist: _playlist)

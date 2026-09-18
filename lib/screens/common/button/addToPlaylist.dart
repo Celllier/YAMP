@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yamp/data/playlist.dart';
 import 'package:yamp/data/song.dart';
+import 'package:yamp/screens/common/orderableSongList.dart';
 
 import '../../songList.dart';
 
@@ -24,7 +25,7 @@ class SongOpotionsDialog extends StatelessWidget {
           constraints: BoxConstraints(maxWidth: 400),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: AddToPlaylistSongListView(list: songs, playlist: playlist),
+            child: AddToPlaylistSongListView(songList: OrderableSongList(songs: songs), playlist: playlist),
           )
         )
       )

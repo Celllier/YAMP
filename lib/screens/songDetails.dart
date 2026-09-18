@@ -66,7 +66,11 @@ class SongPageView extends StatelessWidget {
               ),
             ),
             
-            SongSlider(song: song),
+            
+            Container(
+              constraints: BoxConstraints(maxWidth: 600),
+              child: SongSlider(song: song)
+            ),
           ],
         ),
       ),
