@@ -178,10 +178,14 @@ class AvailableSongsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SongModel>(
+    return SingleChildScrollView(
+      child:  Consumer<SongModel>(
       builder: (context, songModel, child) => 
         DefaultSongListView(songList: OrderableSongList(songs: songModel.availableSongs)),
-    );
+    )
+    ) ;
+    
+   
   }
 }
 

@@ -57,6 +57,7 @@ abstract class SongListView extends StatelessWidget {
   Widget _buildList(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: songList.length,
       itemBuilder: (context, index) => 
         Padding(
@@ -81,9 +82,10 @@ abstract class SongListView extends StatelessWidget {
             if (isOrderable)
                _buildInteractions(context),
 
-            Expanded(
-              child:_buildList(context),
-            )
+            _buildList(context)
+            //Expanded(
+            //  child:_buildList(context),
+            //)
           ],
         )
     );

@@ -5,6 +5,7 @@ import 'package:yamp/screens/common/button/addToPlaylist.dart';
 import 'package:yamp/screens/common/button/playQueue.dart';
 import 'package:yamp/screens/common/orderableSongList.dart';
 import 'package:yamp/screens/songList.dart';
+import 'package:yamp/util/utils.dart';
 import '../data/playlist.dart';
 
 import 'common/common.dart';
@@ -37,10 +38,31 @@ class PlaylistDetailsView extends StatelessWidget {
 
   final Playlist _playlist;
 
+  Widget _buildInteractions() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        PlayQueue(playlist: _playlist)
+      ],
+    );
+  }
 
-  void _addSongToPlaylist() {
-    //int songId = 1;
-    //_playlist.add(song)
+  Widget _buildHero(BuildContext context) {
+    return Column(
+      children: [
+        Utils.buildLeadingPlaylistArt(context, _playlist, size: 200),
+        Text(_playlist.name, style: TextTheme.of(context).displaySmall)
+        //TextStyle(fontWeight: FontWeight.bold)
+      ],
+    );
+  }
+
+  Widget _buildSongList() {
+    return Consumer<SongModel>(
+      builder: (_, songModel, _) => 
+          DefaultSongListView(
+            songList: OrderableSongList(songs: _playlist.getSongList(songModel))),
+    );
   }
 
   @override
@@ -48,42 +70,38 @@ class PlaylistDetailsView extends StatelessWidget {
     return ListenableBuilder(
       listenable: _playlist,
       builder: (_, _) {
-        return Center(
-          child: Column(
-            spacing: 10,
-            children: [
-              Text.rich(
-                TextSpan(
-                  text: 'Songs in ',
-                  style: Theme.of(context).textTheme.titleLarge,
-                  children: [
-                    TextSpan(
-                      text: _playlist.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PlayQueue(playlist: _playlist)
-                ],
-              ),
-        
-              Consumer<SongModel>(
-                builder: (_, songModel, _) => 
-                  Expanded(child: DefaultSongListView(songList: OrderableSongList(songs: _playlist.getSongList(songModel)))),
-              ),
-        
-              SongOpotionsDialog(playlist: _playlist)
-            ] 
+        return SingleChildScrollView(
+          child: Center(
+          child: Padding(
+            padding: const EdgeInsetsGeometry.only(top: 20),
+            child: Column(
+              spacing: 10,
+              children: [
+                _buildHero(context),
+                _buildInteractions(),
+                _buildSongList(),
+                SongOpotionsDialog(playlist: _playlist)
+              ] 
+            ),
           )
+        )
         );
       }
     );
   }
 }
+
+//              Text.rich(
+//                TextSpan(
+//                  text: 'Songs in ',
+//                  style: Theme.of(context).textTheme.titleLarge,
+//                  children: [
+//                    TextSpan(
+//                      text: _playlist.name,
+//                      style: const TextStyle(
+//                        fontWeight: FontWeight.bold,
+//                      ),
+//                    ),
+//                  ],
+//                ),
+//              ),
