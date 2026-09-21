@@ -14,6 +14,8 @@ import 'songList.dart';
 
 
 class AdaptiveLayout extends StatefulWidget {
+  static const int largeScreenMinWidth = 900;
+
   const AdaptiveLayout({super.key});
 
   @override
@@ -22,8 +24,6 @@ class AdaptiveLayout extends StatefulWidget {
 
 
 class _AdaptiveLayoutState extends State<AdaptiveLayout> {
-
-  static const int largeScreenMinWidth = 900;
 
   final PageController _pageController = PageController();
   int selectedIndex = 0;
@@ -141,7 +141,7 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final isLargeScreen = constraints.maxWidth > _AdaptiveLayoutState.largeScreenMinWidth;
+        final isLargeScreen = constraints.maxWidth > AdaptiveLayout.largeScreenMinWidth;
 
         return Scaffold(
           appBar: MyAppBar(),

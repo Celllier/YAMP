@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:yamp/data/song.dart';
+import 'package:yamp/screens/adaptiveLayout.dart';
 import 'package:yamp/screens/common/button/addToPlaylist.dart';
 import 'package:yamp/screens/common/button/playQueue.dart';
 import 'package:yamp/screens/common/orderableSongList.dart';
@@ -47,12 +49,11 @@ class PlaylistDetailsView extends StatelessWidget {
     );
   }
 
-  Widget _buildHero(BuildContext context) {
+  Widget _buildHero(BuildContext context, {double albumSize = 200}) {
     return Column(
       children: [
-        Utils.buildLeadingPlaylistArt(context, _playlist, size: 200),
+        Utils.buildLeadingPlaylistArt(context, _playlist, size: albumSize),
         Text(_playlist.name, style: TextTheme.of(context).displaySmall)
-        //TextStyle(fontWeight: FontWeight.bold)
       ],
     );
   }
@@ -65,43 +66,73 @@ class PlaylistDetailsView extends StatelessWidget {
     );
   }
 
+
+
+//TODO: make more modular
+  Widget _buildSmallLayout(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 10,
+      children: [
+        _buildHero(context),
+        _buildInteractions(),
+        _buildSongList(),
+        SongOpotionsDialog(playlist: _playlist)
+      ] 
+    );
+  } 
+
+  Widget _buildLargeLayout(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 40,
+      children: [
+        SizedBox(
+          width: 300,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 10,
+            children: [
+              _buildHero(context, albumSize: 300),
+              _buildInteractions(),
+              SongOpotionsDialog(playlist: _playlist),
+            ],
+          ),
+        ),
+        Expanded(
+          child: _buildSongList(),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: _playlist,
       builder: (_, _) {
-        return SingleChildScrollView(
-          child: Center(
-          child: Padding(
-            padding: const EdgeInsetsGeometry.only(top: 20),
-            child: Column(
-              spacing: 10,
-              children: [
-                _buildHero(context),
-                _buildInteractions(),
-                _buildSongList(),
-                SongOpotionsDialog(playlist: _playlist)
-              ] 
-            ),
-          )
-        )
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final isLargeScreen =
+                constraints.maxWidth > AdaptiveLayout.largeScreenMinWidth;
+
+            return SingleChildScrollView(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 1600),
+                  child: Padding(
+                    padding: const EdgeInsetsGeometry.only(top: 20),
+                    child: isLargeScreen
+                        ? _buildLargeLayout(context)
+                        : _buildSmallLayout(context),
+                  ),
+                ),
+              ),
+            );
+          },
         );
-      }
+      },
     );
   }
 }
-
-//              Text.rich(
-//                TextSpan(
-//                  text: 'Songs in ',
-//                  style: Theme.of(context).textTheme.titleLarge,
-//                  children: [
-//                    TextSpan(
-//                      text: _playlist.name,
-//                      style: const TextStyle(
-//                        fontWeight: FontWeight.bold,
-//                      ),
-//                    ),
-//                  ],
-//                ),
-//              ),
