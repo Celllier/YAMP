@@ -1,4 +1,3 @@
-
 import 'package:yamp/data/song.dart';
 
 abstract class OrderStrategy {
@@ -65,3 +64,16 @@ class OrderDurationDesc extends OrderStrategy {
   }
 
 }
+
+
+class OrderRandom extends OrderStrategy {
+
+  const OrderRandom() : super('Random Order');
+
+  @override
+  void order(List<Song> songs) {
+    songs.shuffle();
+  }
+
+}
+

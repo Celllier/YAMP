@@ -29,6 +29,7 @@ abstract class SongListView extends StatelessWidget {
     OrderByNameDesc(),
     OrderDurationAsc(),
     OrderDurationDesc(),
+    OrderRandom(),
   ];
 
   Widget _buildInteractions(BuildContext context) {
