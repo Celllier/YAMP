@@ -44,7 +44,8 @@ class PlaylistDetailsView extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        PlayQueue(playlist: _playlist)
+        PlayQueue(playlist: _playlist),
+        SongOpotionsDialog(playlist: _playlist)
       ],
     );
   }
@@ -68,7 +69,6 @@ class PlaylistDetailsView extends StatelessWidget {
 
 
 
-//TODO: make more modular
   Widget _buildSmallLayout(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -77,7 +77,6 @@ class PlaylistDetailsView extends StatelessWidget {
         _buildHero(context),
         _buildInteractions(),
         _buildSongList(),
-        SongOpotionsDialog(playlist: _playlist)
       ] 
     );
   } 
@@ -85,19 +84,21 @@ class PlaylistDetailsView extends StatelessWidget {
   Widget _buildLargeLayout(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 40,
+      spacing: 20,
       children: [
         SizedBox(
           width: 300,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 10,
-            children: [
-              _buildHero(context, albumSize: 300),
-              _buildInteractions(),
-              SongOpotionsDialog(playlist: _playlist),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 10,
+              children: [
+                _buildHero(context, albumSize: 280),
+                _buildInteractions(),
+              ],
+            ),
           ),
         ),
         Expanded(

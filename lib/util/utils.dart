@@ -12,6 +12,16 @@ class Utils {
     return "$min:$sec";
   }
 
+  static String formatDurationHours(int seconds) {
+    int hour = (seconds / 3600).floor();
+    int min = ((seconds%3600)/60).floor();
+    if (hour == 0) {
+      return "${min} mins";
+    }
+    return "${hour}hours ${min}mins";
+  }
+
+
   static Widget buildLeadingPlaylistArt(BuildContext context, Playlist playlist, {double size = 80}) {
     if (playlist.length == 0) {
       return Song.defaultAlbumArt.displayImage(size: size);

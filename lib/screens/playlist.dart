@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:yamp/data/song.dart';
 import 'package:yamp/util/utils.dart';
 
 import '../data/playlist.dart';
@@ -70,6 +71,10 @@ class PlaylistListingPage extends StatelessWidget {
   }
 
   Widget _buildPlayListTileContent(BuildContext context, Playlist playlist) {
+    int numSongs = playlist.length;
+    String numSongsLabel = numSongs > 1 ? "songs" : "song";
+    int playlistDuration = playlist.getDurationSeconds(context.read<SongModel>());
+
     return Row(
       spacing: 6,
       children: [
@@ -80,7 +85,11 @@ class PlaylistListingPage extends StatelessWidget {
           spacing: 4,
           children: [
             Text(playlist.name, style: TextTheme.of(context).titleMedium),
-            Text("${playlist.length} songs", style: TextTheme.of(context).labelMedium),
+            Text("$numSongs $numSongsLabel", style: TextTheme.of(context).labelMedium),
+            Text(
+              Utils.formatDurationHours(playlistDuration), 
+              style: TextTheme.of(context).labelMedium
+            ),
           ],
         )
       ],

@@ -26,12 +26,6 @@ class Playlist extends ChangeNotifier {
     _songRepository.addSongToPlaylist(id, song.id!, nextQueuePosition);
     notifyListeners();
   } 
-//
-  //void remove(Song song) {
-  //  _queue.remove(song);
-  //  //_songRepository
-  //  notifyListeners();
-  //}
 
   void play(SongModel songModel, SongPlayer songPlayer){
     songPlayer.playQueue(getSongs(songModel));
@@ -59,6 +53,15 @@ class Playlist extends ChangeNotifier {
 
   List<Song> getFirstFourSongs(SongModel songModel) {
     return getSongList(songModel).getRange(0, 4).toList();
+  }
+
+  int getDurationSeconds(SongModel songModel) {
+    List<Song> songs = getSongList(songModel);
+    int secs = 0;
+    for (final song in songs) {
+      secs += song.durationSeconds;
+    }
+    return secs;
   }
 
   String get name => _name;
