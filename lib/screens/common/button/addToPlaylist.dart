@@ -26,7 +26,7 @@ class SongOpotionsDialog extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
-              child: AddToPlaylistSongListView(songList: OrderableSongList(songs: songs), playlist: playlist),
+              child: AddToPlaylistSongListView(songList: OrderableSongList(ids: context.read<SongModel>().getAllSongIds()), playlist: playlist),
             ) 
           )
         )

@@ -105,15 +105,41 @@ class SongModel extends ChangeNotifier {
   final SongRepository _songRepository;
 
   List<Song> _loadedSongs = [];
+  final Map<int, Song> _songMap = {};
 
   Future<void> _loadSongs() async {
     _loadedSongs = await _songRepository.loadSongs();
+    _loadMap();
     notifyListeners();
+  }
+
+  void _loadMap() {
+    for (final song in _loadedSongs) {
+      _songMap.putIfAbsent(song.id!, () => song);
+    }
   }
 
   Future<void> saveSong(Song song) async {
     await _songRepository.updateSong(song);
     notifyListeners();
+  }
+
+  Song fetchSong(int id) {
+    return _songMap[id]!;
+  }
+
+  List<Song> fetchSongs(List<int> ids) {
+    final List<Song> songs = [];
+    for (final int id in ids) {
+      if (_songMap.containsKey(id)) {
+        songs.add(_songMap[id]!);
+      }
+    }
+    return songs;
+  }
+
+  List<int> getAllSongIds() {
+    return _songMap.keys.toList();
   }
 
 

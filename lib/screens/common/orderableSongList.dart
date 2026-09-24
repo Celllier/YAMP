@@ -4,15 +4,29 @@ import 'package:yamp/data/order/order.dart';
 import 'package:yamp/data/song.dart';
 
 class OrderableSongList extends ChangeNotifier {
-  final List<Song> songs;
+  final List<int> ids;
 
-  OrderableSongList({required this.songs});
+  OrderableSongList({required List<int> ids}) 
+      : ids = List.of(ids);
 
-  void sort(OrderStrategy orderStrategy) {
-    orderStrategy.order(songs);
+  void sort(OrderStrategy orderStrategy, SongModel model) {
+    final songs = {
+    for (final song in model.fetchSongs(ids))
+      song.id: song,
+    };
+
+    ids.sort(
+      (a, b) => orderStrategy.compare(
+        songs[a]!,
+        songs[b]!,
+      ),
+    );
     notifyListeners();
   }
 
-  int get length => songs.length;
-  List<Song> get list => songs;
+  List<Song> getSongs(SongModel model) {
+    return model.fetchSongs(ids);
+  }
+
+  int get length => ids.length;
 }

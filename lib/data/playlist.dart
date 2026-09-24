@@ -68,6 +68,7 @@ class Playlist extends ChangeNotifier {
   int get id => _id!;
   int get nextQueuePosition => _queueIds.length + 1;
   int get length => _queueIds.length;
+  List<int> get songIdList => _queueIds.toList();
 }
 
 

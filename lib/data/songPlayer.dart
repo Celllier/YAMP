@@ -84,6 +84,14 @@ class SongPlayer extends ChangeNotifier {
     _playingSong = null;
   }
 
+  List<int> getListId() {
+    final List<int> songs = [];
+    for (final Song song in _songQueue) {
+      songs.add(song.id!);
+    }
+    return songs;
+  }
+
   @override
   void dispose() {
     removePreviousSong();

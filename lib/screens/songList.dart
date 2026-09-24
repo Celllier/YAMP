@@ -38,7 +38,7 @@ abstract class SongListView extends StatelessWidget {
         for (final OrderStrategy orderEntry in order)
           MenuItemButton(
             onPressed: () {
-              songList.sort(orderEntry);
+              songList.sort(orderEntry, context.read<SongModel>());
             },
             child: Text(orderEntry.name),
           )
@@ -56,16 +56,17 @@ abstract class SongListView extends StatelessWidget {
   }
 
   Widget _buildList(BuildContext context) {
+    List<Song> songs = songList.getSongs(context.read<SongModel>());
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: songList.length,
-      itemBuilder: (context, index) => 
+      itemBuilder: (_, index) => 
         Padding(
           padding: const EdgeInsets.all(1.0),
           child: SongView(
-            song: songList.list[index], 
-            interactionButtons: getInteractionButtons(songList.list[index])
+            song: songs[index], 
+            interactionButtons: getInteractionButtons(songs[index])
           ),
         )
     );
@@ -84,9 +85,6 @@ abstract class SongListView extends StatelessWidget {
                _buildInteractions(context),
 
             _buildList(context)
-            //Expanded(
-            //  child:_buildList(context),
-            //)
           ],
         )
     );

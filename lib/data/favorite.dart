@@ -44,5 +44,7 @@ class FavoriteModel extends ChangeNotifier {
       favoriteIds.contains(song.id!)
     ).toList();
   }
+
+  List<int> get listId => favoriteIds.toList();
   
 }
