@@ -3,8 +3,8 @@ import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
 import 'package:yamp/data/songPlayer.dart';
 import 'package:yamp/screens/common/button/addToPlaylist.dart';
-import 'package:yamp/screens/common/button/orderButton.dart';
-import 'package:yamp/screens/common/orderableSongList.dart';
+import 'package:yamp/screens/common/button/songListMenu.dart';
+import 'package:yamp/data/orderableSongList.dart';
 
 import 'package:flutter/foundation.dart';
 import 'common/button/favoriteIcon.dart';
@@ -73,7 +73,7 @@ class _SongListViewState extends State<SongListView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (widget.isOrderable)
-              OrderButton(songList: _sortedSongList),
+              SongListMenu(sortedSongList: _sortedSongList),
     
             _buildList(context)
           ],

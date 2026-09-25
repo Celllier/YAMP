@@ -1,11 +1,10 @@
-
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:yamp/data/song.dart';
 import 'package:yamp/screens/adaptiveLayout.dart';
 import 'package:yamp/screens/common/button/addToPlaylist.dart';
 import 'package:yamp/screens/common/button/playQueue.dart';
-import 'package:yamp/screens/common/orderableSongList.dart';
 import 'package:yamp/screens/songList.dart';
 import 'package:yamp/util/utils.dart';
 import '../data/playlist.dart';
@@ -40,11 +39,14 @@ class PlaylistDetailsView extends StatelessWidget {
 
   final Playlist _playlist;
 
-  Widget _buildInteractions() {
+  Widget _buildInteractions(BuildContext context) {
+    SongModel songModel = context.read<SongModel>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        PlayQueue(playlist: _playlist),
+        PlayQueue(
+          queueSongs: _playlist.getSongs(songModel)
+        ),
         SongOpotionsDialog(playlist: _playlist)
       ],
     );
@@ -60,10 +62,8 @@ class PlaylistDetailsView extends StatelessWidget {
   }
 
   Widget _buildSongList() {
-    return Consumer<SongModel>(
-      builder: (_, songModel, _) => 
-          DefaultSongListView(
-            songList: _playlist.songIdList),
+    return DefaultSongListView(
+      songList: _playlist.songIdList    
     );
   }
 
@@ -75,7 +75,7 @@ class PlaylistDetailsView extends StatelessWidget {
       spacing: 10,
       children: [
         _buildHero(context),
-        _buildInteractions(),
+        _buildInteractions(context),
         _buildSongList(),
       ] 
     );
@@ -96,7 +96,7 @@ class PlaylistDetailsView extends StatelessWidget {
               spacing: 10,
               children: [
                 _buildHero(context, albumSize: 280),
-                _buildInteractions(),
+                _buildInteractions(context),
               ],
             ),
           ),
@@ -117,7 +117,7 @@ class PlaylistDetailsView extends StatelessWidget {
           builder: (context, constraints) {
             final isLargeScreen =
                 constraints.maxWidth > AdaptiveLayout.largeScreenMinWidth;
-
+            //TODO: put scroll only in list
             return SingleChildScrollView(
               child: Center(
                 child: ConstrainedBox(

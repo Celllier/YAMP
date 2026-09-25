@@ -44,10 +44,10 @@ class SongPlayer extends ChangeNotifier {
   }
 
   void playQueue(Queue<Song> songs) {
-    playSong(songs.removeFirst());
+    playSong(songs.first);
 
     _songQueue.clear();
-    _songQueue.addAll(songs);
+    _songQueue.addAll(songs.skip(1));
 
     notifyListeners();
   }

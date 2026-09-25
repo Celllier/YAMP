@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:yamp/screens/common/glassWidget.dart';
 
 import 'package:provider/provider.dart';
-import 'package:yamp/screens/common/orderableSongList.dart';
 import '../data/songPlayer.dart';
 
 import 'common/common.dart';
@@ -145,7 +144,6 @@ class _AdaptiveLayoutState extends State<AdaptiveLayout> {
 
         return Scaffold(
           appBar: MyAppBar(),
-          //bottomSheet: Container(padding: EdgeInsets.only(bottom: 30), child: MiniPlayerSheet(), color: Colors.red) ,
           bottomNavigationBar: _buildNavigationBar(isLargeScreen),
           body: _buildContent(isLargeScreen)
         );
@@ -165,9 +163,11 @@ class FavoritesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer2<FavoriteModel, SongModel>(
-      builder: (context, favoriteModel, songModel, child) => 
-        DefaultSongListView(songList: favoriteModel.listId)
+    return Consumer<FavoriteModel>(
+      builder: (context, favoriteModel, child) =>  
+        SingleChildScrollView(
+          child: DefaultSongListView(songList: favoriteModel.listId),
+        )
     );
   }
 }
@@ -183,7 +183,7 @@ class AvailableSongsView extends StatelessWidget {
       builder: (context, songModel, child) => 
         DefaultSongListView(songList: songModel.getAllSongIds()),
       )
-    ) ;
+    );
     
    
   }
@@ -195,9 +195,11 @@ class QueuedSongsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SongPlayer>(
+    return SingleChildScrollView(
+      child: Consumer<SongPlayer>(
       builder: (context, songPlayer, child) =>
         DefaultSongListView(songList: songPlayer.getListId(), isOrderable: false,)
+      )
     );
   }
 }
