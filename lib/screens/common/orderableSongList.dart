@@ -4,7 +4,7 @@ import 'package:yamp/data/order/order.dart';
 import 'package:yamp/data/song.dart';
 
 class OrderableSongList extends ChangeNotifier {
-  final List<int> ids;
+  List<int> ids;
 
   OrderableSongList({required List<int> ids}) 
       : ids = List.of(ids);
@@ -22,6 +22,10 @@ class OrderableSongList extends ChangeNotifier {
       ),
     );
     notifyListeners();
+  }
+
+  void setIds(List<int> ids) {
+    this.ids = List.of(ids);
   }
 
   List<Song> getSongs(SongModel model) {

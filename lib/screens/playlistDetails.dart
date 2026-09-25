@@ -63,7 +63,7 @@ class PlaylistDetailsView extends StatelessWidget {
     return Consumer<SongModel>(
       builder: (_, songModel, _) => 
           DefaultSongListView(
-            songList: OrderableSongList(ids: _playlist.songIdList)),
+            songList: _playlist.songIdList),
     );
   }
 

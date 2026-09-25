@@ -1,95 +1,87 @@
-import 'package:yamp/data/order/order.dart';
 import 'package:yamp/data/playlist.dart';
 import 'package:yamp/data/song.dart';
 import 'package:flutter/material.dart';
 import 'package:yamp/data/songPlayer.dart';
 import 'package:yamp/screens/common/button/addToPlaylist.dart';
+import 'package:yamp/screens/common/button/orderButton.dart';
+import 'package:yamp/screens/common/orderableSongList.dart';
 
+import 'package:flutter/foundation.dart';
 import 'common/button/favoriteIcon.dart';
 import 'common/button/queueButton.dart';
 
 import 'package:provider/provider.dart';
 import '../util/utils.dart';
 
-import 'common/orderableSongList.dart';
 
-abstract class SongListView extends StatelessWidget {
-
+abstract class SongListView extends StatefulWidget {
   
-  //copy of song list to not bleed results
-  const SongListView({super.key, required this.songList, this.isOrderable = true});
-
-  final OrderableSongList songList;
+  final List<int> songList;
   final bool isOrderable;
   List<Widget> getInteractionButtons(Song song);
 
-  // abstarct into difefrent widget
-  final List<OrderStrategy> order = const [
-    OrderByNameAsc(),
-    OrderByNameDesc(),
-    OrderDurationAsc(),
-    OrderDurationDesc(),
-    OrderRandom(),
-  ];
+  const SongListView({super.key, required this.songList, this.isOrderable = true});
 
-  Widget _buildInteractions(BuildContext context) {
-    return MenuAnchor(
-      menuChildren: <Widget>[
-        for (final OrderStrategy orderEntry in order)
-          MenuItemButton(
-            onPressed: () {
-              songList.sort(orderEntry, context.read<SongModel>());
-            },
-            child: Text(orderEntry.name),
-          )
-      ],
+  @override
+  State<SongListView> createState() => _SongListViewState(songIds: songList);
+}
 
-      builder: (_, controller, _) =>
-        IconButton(
-          onPressed: () => {
-            if (controller.isOpen) controller.close()
-            else controller.open()
-          },
-           icon: Icon(Icons.sort)
-          ) 
-    );
+
+class _SongListViewState extends State<SongListView> {
+
+  final OrderableSongList _sortedSongList;
+
+  _SongListViewState({required List<int> songIds}) 
+      : _sortedSongList = OrderableSongList(ids: songIds);
+
+
+  @override  //asynchronous song loading initializes _sortedSongList empty
+  void didUpdateWidget(covariant SongListView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (!listEquals(oldWidget.songList, widget.songList)) {
+      _sortedSongList.setIds(widget.songList);
+    }
   }
 
+
   Widget _buildList(BuildContext context) {
-    List<Song> songs = songList.getSongs(context.read<SongModel>());
+    List<Song> songs = _sortedSongList.getSongs(context.read<SongModel>());
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: songList.length,
+      itemCount: songs.length,
       itemBuilder: (_, index) => 
         Padding(
           padding: const EdgeInsets.all(1.0),
           child: SongView(
             song: songs[index], 
-            interactionButtons: getInteractionButtons(songs[index])
+            interactionButtons: widget.getInteractionButtons(songs[index])
           ),
         )
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: songList, 
+      listenable: _sortedSongList, 
       builder: (_, _) => 
         Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (isOrderable)
-               _buildInteractions(context),
-
+            if (widget.isOrderable)
+              OrderButton(songList: _sortedSongList),
+    
             _buildList(context)
           ],
         )
     );
   }
 }
+
 
 class DefaultSongListView extends SongListView {
   const DefaultSongListView({super.key, required super.songList, super.isOrderable});

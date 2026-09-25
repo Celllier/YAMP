@@ -16,7 +16,7 @@ class SongOpotionsDialog extends StatelessWidget {
 
 
   void _showSongOptionsDialog(BuildContext context) async {
-    List<Song> songs = context.read<SongModel>().availableSongs;
+    List<int> songIds = context.read<SongModel>().getAllSongIds();
 
     showDialog<Song>(
       context: context, 
@@ -26,7 +26,7 @@ class SongOpotionsDialog extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
-              child: AddToPlaylistSongListView(songList: OrderableSongList(ids: context.read<SongModel>().getAllSongIds()), playlist: playlist),
+              child: AddToPlaylistSongListView(songList: songIds, playlist: playlist),
             ) 
           )
         )

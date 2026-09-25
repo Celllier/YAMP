@@ -167,7 +167,7 @@ class FavoritesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<FavoriteModel, SongModel>(
       builder: (context, favoriteModel, songModel, child) => 
-        DefaultSongListView(songList: OrderableSongList(ids: favoriteModel.listId))
+        DefaultSongListView(songList: favoriteModel.listId)
     );
   }
 }
@@ -181,8 +181,8 @@ class AvailableSongsView extends StatelessWidget {
     return SingleChildScrollView(
       child:  Consumer<SongModel>(
       builder: (context, songModel, child) => 
-        DefaultSongListView(songList: OrderableSongList(ids: songModel.getAllSongIds())),
-    )
+        DefaultSongListView(songList: songModel.getAllSongIds()),
+      )
     ) ;
     
    
@@ -197,7 +197,7 @@ class QueuedSongsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<SongPlayer>(
       builder: (context, songPlayer, child) =>
-        DefaultSongListView(songList: OrderableSongList(ids: songPlayer.getListId()), isOrderable: false,)
+        DefaultSongListView(songList: songPlayer.getListId(), isOrderable: false,)
     );
   }
 }
