@@ -36,11 +36,28 @@ void main() async {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
+  
+  ThemeData _getTheme() {
+    return ThemeData(
+      iconButtonTheme: IconButtonThemeData(
+        style: ButtonStyle(
+          iconColor: WidgetStateColor.resolveWith((states) {
+            if (states.contains(WidgetState.disabled)) {
+              return const Color.fromARGB(255, 75, 75, 75);
+            } else {
+              return Colors.black;
+            }
+          })  
+        )
+      )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: AdaptiveLayout()
+      home: AdaptiveLayout(),
+      theme: _getTheme(),
     );
   }
 }

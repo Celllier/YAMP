@@ -65,11 +65,11 @@ class SongPageView extends StatelessWidget {
     FavoriteIcon(song: song),
   ];
 
-  Widget _buildGlassText(String text, TextStyle? style) {
+  Widget _buildGlassText(String text, TextStyle style) {
     return AdaptiveGlass(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Text(text, style: style),
+        child: Text(text, style: style.copyWith(color: Colors.black, fontWeight: FontWeight.w500)),
       ),
     );
   }
@@ -78,8 +78,8 @@ class SongPageView extends StatelessWidget {
     return Column(
       spacing: 8,
       children: [
-        _buildGlassText(song.title, TextTheme.of(context).headlineSmall),
-        _buildGlassText(song.artist, TextTheme.of(context).labelMedium),
+        _buildGlassText(song.title, TextTheme.of(context).headlineSmall!),
+        _buildGlassText(song.artist, TextTheme.of(context).labelMedium!),
       ],
     );
   }
@@ -116,9 +116,10 @@ class SongPageView extends StatelessWidget {
   Widget _buildPageContents(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(top: 50),
+        padding: const EdgeInsets.only(bottom: 100),
         child: Column(
           spacing: 20,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             song.albumArt.displayImage(size: 300),
             _buildTextInfo(context),
