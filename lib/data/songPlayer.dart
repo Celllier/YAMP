@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:yamp/data/playlist.dart';
 
 import '../data/song.dart';
 

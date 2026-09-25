@@ -7,11 +7,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   MyAppBar({
     super.key, 
     this.title = 'YetAnotherMusicPlayer',
-    this.automaticallyImplyLeading = false
+    this.automaticallyImplyLeading = false,
+    this.leading
   });
 
   final String title;
   final bool automaticallyImplyLeading;
+  final Widget? leading;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         automaticallyImplyLeading: automaticallyImplyLeading,
+        leading: leading,
       )
     );
   }

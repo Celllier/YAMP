@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:yamp/data/song.dart';
 import 'package:yamp/screens/adaptiveLayout.dart';
@@ -22,7 +21,7 @@ class PlaylistDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: _playlist.name,
+        title: _playlist.name,  
         automaticallyImplyLeading: true,
       ),
       bottomSheet: MiniPlayerSheet(),

@@ -47,7 +47,7 @@ class MiniPlayerSheet extends StatelessWidget {
 
 class _MiniPlayerWidget extends StatelessWidget {
 
-  const _MiniPlayerWidget({super.key, required this.songPlayer, required this.song});
+  const _MiniPlayerWidget({required this.songPlayer, required this.song});
 
   final SongPlayer songPlayer;
   final Song song;
@@ -82,7 +82,7 @@ class _MiniPlayerWidget extends StatelessWidget {
 
 class _MiniPlayerContents extends StatelessWidget {
 
-  const _MiniPlayerContents({super.key, required this._songPlayer});
+  const _MiniPlayerContents({required this._songPlayer});
 
   final SongPlayer _songPlayer;
 

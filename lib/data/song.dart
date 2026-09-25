@@ -153,16 +153,19 @@ abstract class SongImage {
 
   const SongImage();
 
+  ImageProvider get imageProvider;
+
   Widget displayImage({double size = 60}) {
     return SizedBox.square(
       dimension: size,
       child: ClipRRect(
-        child: createImage(),
+        child: Image(
+          image: imageProvider,
+          fit: BoxFit.cover
+        ),
       ),
     );
   }
-
-  Widget createImage();
 }
 
 
@@ -173,12 +176,7 @@ class SongPathImage extends SongImage {
   final String path;
 
   @override
-  Widget createImage() {
-    return Image(
-      image: AssetImage(path),
-      fit: BoxFit.cover
-    );
-  }
+  ImageProvider get imageProvider => AssetImage(path);
 }
 
 
@@ -189,10 +187,5 @@ class SongByteImage extends SongImage {
   final Uint8List bytes;
 
   @override
-  Widget createImage() {
-    return Image.memory(
-      bytes,
-      fit: BoxFit.cover
-    );
-  }
+  ImageProvider get imageProvider => MemoryImage(bytes);
 }

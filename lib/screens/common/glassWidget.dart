@@ -42,3 +42,26 @@ class GlassWidget extends StatelessWidget {
   }
 
 }
+
+
+class AdaptiveGlass extends StatelessWidget {
+
+  final Widget child;
+
+  const AdaptiveGlass({super.key, required this.child});
+  
+  @override
+  Widget build(BuildContext context) {
+    return LiquidGlassLens(
+      style: LiquidGlassStyle(
+        shape: LiquidGlassShape.continuousRoundedRectangle(cornerRadius: 20),
+        adaptivity: LiquidGlassAdaptivity(
+          contentColorOnDark: Colors.white,
+          contentColorOnLight: const Color(0xFF1C1C1E),
+        ),
+      ),
+      child: child
+    );
+  }
+  
+}
