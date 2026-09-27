@@ -169,8 +169,19 @@ class SongRepository {
       value,
     );
   }
+
+  Future<void> removeSongFromPlaylist(int playlistId, int songId) async {
+    await _database.delete(
+      SongRepository.playlistSongsTable,
+      where: 'playlist_id = ? and song_id = ?',
+      whereArgs: [playlistId, songId]
+    );
+  }
   
 }
+
+          //playlist_id INTEGER NOT NULL,
+          //song_id INTEGER NOT NULL,
 
 
           //playlist_id INTEGER NOT NULL,

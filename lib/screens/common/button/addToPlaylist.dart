@@ -33,6 +33,7 @@ class SongOpotionsDialog extends StatelessWidget {
     ); 
   }
 
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
@@ -54,11 +55,21 @@ class AddToPlaylistButton extends StatelessWidget {
     playlist.addSong(song);
   }
 
+  void _toggleSongToPlaylist() {
+    playlist.toggleSong(song);
+  }
+
+  IconData _getIcon() {
+    return playlist.songIdList.contains(song.id!)
+      ? Icons.remove
+      : Icons.add;
+  }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: _addSongToPlaylist,
-      icon: Icon(Icons.add)
+      onPressed: _toggleSongToPlaylist,
+      icon: Icon(_getIcon())
     );
   }
   

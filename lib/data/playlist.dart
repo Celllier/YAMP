@@ -27,6 +27,17 @@ class Playlist extends ChangeNotifier {
     notifyListeners();
   } 
 
+  void toggleSong(Song song) {
+    if (_queueIds.contains(song.id!)) {
+      _queueIds.remove(song.id!);
+      _songRepository.removeSongFromPlaylist(id, song.id!);
+    } else {
+      _queueIds.add(song.id!);
+      _songRepository.addSongToPlaylist(id, song.id!, nextQueuePosition);
+    }
+    notifyListeners();
+  }
+
   void play(SongModel songModel, SongPlayer songPlayer){
     songPlayer.playQueue(getSongs(songModel));
   }
