@@ -4,9 +4,16 @@ import 'package:flutter/foundation.dart';
 
 import 'package:audioplayers/audioplayers.dart';
 
+import 'songQueue.dart';
 import '../data/song.dart';
 
 class SongPlayer extends ChangeNotifier {
+
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  PlayerState _playerState = PlayerState.stopped;
+
+  final SongQueue songQueue = SongQueue();
+  late SongMetaData metaData;
 
   SongPlayer() {
     _audioPlayer.setReleaseMode(ReleaseMode.stop);
@@ -18,25 +25,17 @@ class SongPlayer extends ChangeNotifier {
     _audioPlayer.onPlayerComplete.listen((data) {
       queueNextSong();
     });
-  }
 
-  
-  final AudioPlayer _audioPlayer = AudioPlayer();
-  PlayerState _playerState = PlayerState.stopped;
-
-  final Queue<Song> _songQueue = Queue();
-  QueuedSong? _playingSong;
-
-
-  void playSong(Song song) {
-    removePreviousSong();
-
-    SongMetaData metaData = SongMetaData(
+    metaData = SongMetaData(
       audioPlayer: _audioPlayer, 
       notifyCallback: notifyListeners
     );
+  }
 
-    _playingSong = (song: song, metaData: metaData);
+
+  void playSong(Song song) {
+    metaData.restart();
+    songQueue.playSong(song);
     _audioPlayer.play(DeviceFileSource(song.sourcePath));
 
     notifyListeners();
@@ -45,24 +44,23 @@ class SongPlayer extends ChangeNotifier {
   void playQueue(Queue<Song> songs) {
     playSong(songs.first);
 
-    _songQueue.clear();
-    _songQueue.addAll(songs.skip(1));
+    songQueue.clear();
+    songQueue.addAll(songs.skip(1));
 
     notifyListeners();
   }
 
   Song? queueNextSong() {
-     if (songQueue.isNotEmpty) {
-      Song next = songQueue.removeFirst();
+    Song? next = songQueue.queueNextSong();
+    if (next != null) {
       playSong(next);
-      return next;
-    } 
-    return null;
+    }
+    return next;
   }
 
 
   bool isPlayingThis(Song song) {
-    return song.sourcePath == _playingSong?.song.sourcePath;
+    return song.sourcePath == playingSong?.sourcePath;
   } 
 
 
@@ -71,21 +69,14 @@ class SongPlayer extends ChangeNotifier {
     Duration(milliseconds: value.toInt()));
   }
 
-  //todo: Implement Song Queueing system
   void addToQueue(Song song) {
-    _songQueue.add(song);
+    songQueue.addToQueue(song);
     notifyListeners();
-  }
-
-
-  void removePreviousSong() {
-    _playingSong?.metaData.dispose();
-    _playingSong = null;
   }
 
   List<int> getListId() {
     final List<int> songs = [];
-    for (final Song song in _songQueue) {
+    for (final Song song in songQueue.nextSongs) {
       songs.add(song.id!);
     }
     return songs;
@@ -93,28 +84,26 @@ class SongPlayer extends ChangeNotifier {
 
   @override
   void dispose() {
-    removePreviousSong();
+    metaData.dispose();
     super.dispose();
   }
 
 
-  Song? get playingSong => _playingSong?.song;
+  Song? get playingSong => songQueue.currentSong;
   PlayerState get playerState => _playerState;
-  Queue<Song> get songQueue => _songQueue;
-  List<Song> get songQueueList => _songQueue.toList();
-  SongMetaData? get songMetaData => _playingSong?.metaData;
+  List<Song> get songQueueList => songQueue.nextSongList;
+  SongMetaData? get songMetaData => metaData;
   AudioPlayer get audioPlayer => _audioPlayer;
 
-  bool get canQueueNext => _songQueue.isNotEmpty;
+  bool get canQueueNext => songQueue.canQueueNext;
 
-  double get duration => _playingSong?.metaData.durationInMilli ?? 0;
-  double get position => _playingSong?.metaData.positionInMilli ?? 0;
+  double get duration => metaData.durationInMilli;
+  double get position => metaData.positionInMilli;
 }
 
 
-typedef QueuedSong = ({Song song, SongMetaData metaData});
 
-
+//change to song statistics
 class SongMetaData {
 
   SongMetaData({required this._audioPlayer, required this._notifyCallback}) {
@@ -144,6 +133,11 @@ class SongMetaData {
   Duration get position => _position;
   double get durationInMilli => _duration.inMilliseconds.toDouble();
   double get positionInMilli => _position.inMilliseconds.toDouble();
+
+  void restart() {
+    _duration = Duration.zero;
+    _position = Duration.zero;
+  }
 
 
   void dispose() {
