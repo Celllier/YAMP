@@ -193,12 +193,54 @@ class QueuedSongsView extends StatelessWidget {
 
   const QueuedSongsView({super.key});
 
+  Widget _buildSegment(BuildContext context, String label, List<int> nextIds, {bool isDimmed = false}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: Text(label, style: TextTheme.of(context).labelMedium),
+        ),
+        DefaultSongListView(songList: nextIds, isOrderable: false, isDimmed: isDimmed)
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Consumer<SongPlayer>(
-      builder: (context, songPlayer, child) =>
-        DefaultSongListView(songList: songPlayer.getListId(), isOrderable: false,)
+      builder: (context, songPlayer, child) {
+        Song? playingSong = songPlayer.songQueue.currentSong; 
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            spacing: 10,
+            children: [
+              _buildSegment(
+                context,
+                 "Previously played", 
+                 songPlayer.songQueue.getHistoryId(),
+                 isDimmed: true,
+              ),
+          
+              if (playingSong != null)
+                _buildSegment(
+                  context,
+                  "Currently playing", 
+                  [playingSong.id!]
+                ),
+          
+              _buildSegment(
+                context, 
+                "Next up", 
+                songPlayer.songQueue.getNextId()
+              )
+            ],
+          ),
+        );
+      }
+      
       )
     );
   }

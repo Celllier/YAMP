@@ -22,6 +22,15 @@ class Utils {
   }
 
 
+  static List<int> getIterableSongId(Iterable<Song> songs) {
+    final List<int> ids = [];
+    for (final song in songs) {
+      ids.add(song.id!);
+    }
+    return ids;
+  }
+
+
   static Widget buildLeadingPlaylistArt(BuildContext context, Playlist playlist, {double size = 80}) {
     if (playlist.length == 0) {
       return Song.defaultAlbumArt.displayImage(size: size);

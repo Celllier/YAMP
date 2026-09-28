@@ -1,6 +1,8 @@
 
 
 import 'dart:collection';
+import 'package:yamp/util/utils.dart';
+
 import 'song.dart';
 
 class SongQueue {
@@ -34,6 +36,16 @@ class SongQueue {
 
 
 
+  List<int> getNextId() {
+    return Utils.getIterableSongId(_next);
+  }
+
+  List<int> getHistoryId() {
+    return Utils.getIterableSongId(_history);
+  }
+
+
+
   void clear() {
     _history.clear();
     _next.clear();
@@ -41,6 +53,7 @@ class SongQueue {
 
   bool get canQueueNext => _next.isNotEmpty;
   Queue<Song> get nextSongs => _next;
+  Queue<Song> get historySongs => _next;
   List<Song> get nextSongList => _next.toList();
   Song? get currentSong => _currentPlaying;
 }

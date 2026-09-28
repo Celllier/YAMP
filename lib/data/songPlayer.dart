@@ -12,7 +12,7 @@ class SongPlayer extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   PlayerState _playerState = PlayerState.stopped;
 
-  final SongQueue songQueue = SongQueue();
+  final SongQueue _songQueue = SongQueue();
   late SongMetaData metaData;
 
   SongPlayer() {
@@ -35,7 +35,7 @@ class SongPlayer extends ChangeNotifier {
 
   void playSong(Song song) {
     metaData.restart();
-    songQueue.playSong(song);
+    _songQueue.playSong(song);
     _audioPlayer.play(DeviceFileSource(song.sourcePath));
 
     notifyListeners();
@@ -44,14 +44,14 @@ class SongPlayer extends ChangeNotifier {
   void playQueue(Queue<Song> songs) {
     playSong(songs.first);
 
-    songQueue.clear();
-    songQueue.addAll(songs.skip(1));
+    _songQueue.clear();
+    _songQueue.addAll(songs.skip(1));
 
     notifyListeners();
   }
 
   Song? queueNextSong() {
-    Song? next = songQueue.queueNextSong();
+    Song? next = _songQueue.queueNextSong();
     if (next != null) {
       playSong(next);
     }
@@ -70,17 +70,10 @@ class SongPlayer extends ChangeNotifier {
   }
 
   void addToQueue(Song song) {
-    songQueue.addToQueue(song);
+    _songQueue.addToQueue(song);
     notifyListeners();
   }
 
-  List<int> getListId() {
-    final List<int> songs = [];
-    for (final Song song in songQueue.nextSongs) {
-      songs.add(song.id!);
-    }
-    return songs;
-  }
 
   @override
   void dispose() {
@@ -89,13 +82,15 @@ class SongPlayer extends ChangeNotifier {
   }
 
 
-  Song? get playingSong => songQueue.currentSong;
+  Song? get playingSong => _songQueue.currentSong;
   PlayerState get playerState => _playerState;
-  List<Song> get songQueueList => songQueue.nextSongList;
+  List<Song> get songQueueList => _songQueue.nextSongList;
   SongMetaData? get songMetaData => metaData;
   AudioPlayer get audioPlayer => _audioPlayer;
 
-  bool get canQueueNext => songQueue.canQueueNext;
+  SongQueue get songQueue => _songQueue;
+
+  bool get canQueueNext => _songQueue.canQueueNext;
 
   double get duration => metaData.durationInMilli;
   double get position => metaData.positionInMilli;

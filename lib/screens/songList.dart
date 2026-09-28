@@ -18,9 +18,10 @@ abstract class SongListView extends StatefulWidget {
   
   final List<int> songList;
   final bool isOrderable;
+  final bool isDimmed;
   List<Widget> getInteractionButtons(Song song);
 
-  const SongListView({super.key, required this.songList, this.isOrderable = true});
+  const SongListView({super.key, required this.songList, this.isOrderable = true, this.isDimmed = false});
 
   @override
   State<SongListView> createState() => _SongListViewState(songIds: songList);
@@ -56,7 +57,8 @@ class _SongListViewState extends State<SongListView> {
           padding: const EdgeInsets.all(1.0),
           child: SongView(
             song: songs[index], 
-            interactionButtons: widget.getInteractionButtons(songs[index])
+            interactionButtons: widget.getInteractionButtons(songs[index]),
+            isDimmed: widget.isDimmed,
           ),
         )
     );
@@ -84,7 +86,7 @@ class _SongListViewState extends State<SongListView> {
 
 
 class DefaultSongListView extends SongListView {
-  const DefaultSongListView({super.key, required super.songList, super.isOrderable});
+  const DefaultSongListView({super.key, required super.songList, super.isOrderable, super.isDimmed});
 
   @override
   List<Widget> getInteractionButtons(Song song) {
@@ -111,13 +113,21 @@ class AddToPlaylistSongListView extends SongListView {
 
 
 class SongView extends StatelessWidget {
-  const SongView({super.key, required this.song, required this.interactionButtons});
+  const SongView({super.key, required this.song, required this.interactionButtons, this.isDimmed = false});
 
   final Song song;
   final List<Widget> interactionButtons;
+  final bool isDimmed;
+
+  static const ColorFilter _greyscale = ColorFilter.matrix(<double>[
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);
 
   Widget _myBuild(BuildContext context) {
-    return Row(
+    Widget row = Row(
       spacing: 6,
       children: [
         _buildLeading(),
@@ -125,6 +135,19 @@ class SongView extends StatelessWidget {
         _buildTrailing(context),
       ],
     );
+
+
+    if (isDimmed) {
+      return ColorFiltered(
+        colorFilter: _greyscale,
+        child: Opacity(
+          opacity: 0.45,
+          child: row,
+        ),
+      );
+    }
+
+    return row;
   }
 
   Widget _buildCenter(BuildContext context) {
